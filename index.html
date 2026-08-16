@@ -32,17 +32,6 @@
   }
   .app{max-width:460px; margin:0 auto; min-height:100vh; background:var(--bg); padding-bottom:36px;}
 
-  /* Page switcher (MTD vs Historical) */
-  .page-switch{display:flex; gap:8px; padding:14px 16px 4px;}
-  .page-switch button{
-    flex:1; font-size:12.5px; font-weight:700; padding:11px 10px; border-radius:14px;
-    border:1.5px solid var(--line); background:#fff; color:var(--ink-soft);
-  }
-  .page-switch button.active{background:var(--navy); color:#fff; border-color:var(--navy);}
-
-  .view{display:block;}
-  .view.hidden{display:none;}
-
   /* Header */
   header.top{
     background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);
@@ -62,6 +51,12 @@
   .brand-title{font-size:18px; font-weight:800; color:#fff; letter-spacing:0.1px; line-height:1.15;}
   .period-chip{font-size:11px; color:rgba(255,255,255,0.85); border:1px solid rgba(255,255,255,0.3); padding:4px 10px; border-radius:20px; white-space:nowrap; flex-shrink:0;}
   .subtitle{font-size:12.5px; color:rgba(255,255,255,0.75); margin-top:12px; position:relative; z-index:1;}
+  .cross-nav-link{
+    display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:rgba(255,255,255,0.9);
+    border:1px solid rgba(255,255,255,0.3); padding:5px 12px; border-radius:20px; margin-top:12px;
+    text-decoration:none; position:relative; z-index:1;
+  }
+  .cross-nav-link:active{background:rgba(255,255,255,0.12);}
 
   /* Tabs */
   nav.tabs{
@@ -167,90 +162,27 @@
 
   footer{padding:18px 16px 4px; text-align:center; font-size:10.5px; color:var(--ink-soft);}
 
-  /* ===================== HISTORICAL PAGE COMPONENTS ===================== */
-  .period-select-wrap{padding:2px 16px 14px;}
-  .period-select-label{font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:6px;}
-  select.period-select{
-    width:100%; padding:11px 14px; border-radius:12px; border:1.5px solid var(--line);
-    background:#fff; font-size:13.5px; font-weight:700; color:var(--navy); outline:none;
-  }
-
-  .kpi-extra{display:flex; border-top:1px dashed var(--line); padding:10px 18px 12px; gap:14px;}
-  .kpi-extra-item{flex:1;}
-  .kpi-extra-label{font-size:9.5px; color:var(--ink-soft); font-weight:700; text-transform:uppercase; letter-spacing:0.3px; margin-bottom:4px;}
-  .kpi-extra-row{display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;}
-  .kpi-extra-val{font-size:12.5px; font-weight:700; font-variant-numeric:tabular-nums;}
-
-  /* Historical row (traveler / period-aware list rows) */
-  .hrow{padding:12px 16px; border-bottom:1px solid var(--line);}
-  .hrow:last-child{border-bottom:none;}
-  .hrow-top{display:flex; align-items:center; justify-content:space-between; gap:8px;}
-  .hrow-name{font-size:12.5px; font-weight:600; flex:1;}
-  .hrow-right{display:flex; align-items:center; gap:8px;}
-  .hrow-val{font-size:14px; font-weight:700; font-variant-numeric:tabular-nums;}
-  .hrow-sub{display:flex; gap:12px; margin-top:6px; font-size:10.5px; color:var(--ink-soft); flex-wrap:wrap;}
-  .hrow-sub b{color:var(--ink); font-weight:700;}
-
-  .bar-extra{font-size:10.5px; color:var(--ink-soft); margin-top:5px; text-align:right;}
-  .bar-extra b{color:var(--ink); font-weight:700;}
-
-  /* Dimension selector for trend chart */
-  .dim-select{display:flex; gap:6px; margin-bottom:12px;}
-  .dim-select button{
-    flex:1; font-size:12px; font-weight:700; padding:9px 8px; border-radius:12px;
-    border:1.5px solid var(--line); background:#fff; color:var(--ink-soft);
-  }
-  .dim-select button.active{background:var(--red); color:#fff; border-color:var(--red);}
-
-  /* ===================== DESKTOP / LAPTOP LAYOUT ===================== */
+  /* ============ DESKTOP RESPONSIVE ============ */
   @media (min-width:900px){
-    body{background:var(--navy-soft);}
     .app{
-      max-width:1180px; background:transparent; padding:24px 24px 48px;
+      max-width:1180px; margin:0 auto; min-height:100vh;
+      display:grid; grid-template-columns:220px 1fr; gap:0; align-items:start;
     }
-    header.top{border-radius:20px; padding:26px 30px 24px;}
-    .brand-title{font-size:21px;}
-    .subtitle{font-size:13px;}
-    .page-switch{padding:16px 0 0; max-width:420px;}
-    .view{
-      display:grid; grid-template-columns:230px 1fr;
-      column-gap:26px; align-items:start;
-    }
-    .view.hidden{display:none;}
+    header.top{grid-column:1 / -1; padding:20px 32px;}
     nav.tabs{
-      grid-column:1; grid-row:1; flex-direction:column; align-items:stretch;
-      position:sticky; top:24px; background:transparent; border-bottom:none;
-      padding:22px 0 0; gap:8px; overflow:visible; align-self:start;
+      grid-column:1; grid-row:2 / span 20; position:sticky; top:18px; align-self:start;
+      flex-direction:column; background:transparent; border-bottom:none; border-right:1px solid var(--line);
+      padding:18px 14px 18px 0; overflow-x:visible; height:calc(100vh - 40px);
     }
-    nav.tabs button{
-      width:100%; text-align:left; padding:11px 16px; font-size:13px;
-      background:var(--card); box-shadow:0 1px 2px rgba(11,31,68,0.05);
-    }
-    nav.tabs button.active{box-shadow:0 4px 10px rgba(11,31,68,0.18);}
-    main.content{grid-column:2; grid-row:1; min-width:0;}
-    section{padding:0 0 8px; margin-top:24px;}
-    section:first-of-type{margin-top:0;}
-    .sec-title{font-size:17px;}
-    #kpiCards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
-    #kpiCards .kpi-card{margin-bottom:0;}
-    #histKpiCards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
-    #histKpiCards .kpi-card{margin-bottom:0;}
-    #brandCards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
-    #brandCards .rc-card{margin-bottom:0;}
-    #histBrandCards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
-    #histBrandCards .rc-card{margin-bottom:0;}
-    .chart-wrap{height:320px;}
-    .chart-card{padding:20px 22px 14px;}
-    #sec-revenue > div[id$="Bars"]{max-width:640px;}
-    #hist-score > div[id$="Bars"]{max-width:640px;}
-    .period-select-wrap{max-width:280px;}
-    footer{margin-top:12px;}
-    .view > footer{grid-column:1/-1;}
+    nav.tabs button{width:100%; text-align:left; padding:10px 14px;}
+    section{grid-column:2; padding:16px 28px 4px;}
+    footer{grid-column:2;}
+    .chart-wrap{height:280px;}
+    .kpi-card, .rc-card, .tlist, .chart-card{max-width:640px;}
   }
 </style>
 </head>
 <body>
-
 <div class="app">
 
   <header class="top">
@@ -262,14 +194,10 @@
       <span class="period-chip" id="periodChip"></span>
     </div>
     <div class="subtitle" id="subtitleText"></div>
+    <!-- TODO: sesuaikan href di bawah dengan path routing DigiPOS dashboard Anda -->
+    <a class="cross-nav-link" href="/digipos">DigiPOS Dashboard →</a>
   </header>
 
-  <div class="page-switch" id="pageSwitch">
-    <button data-page="mtd" class="active">Performance MTD</button>
-    <button data-page="historical">Historical Performance</button>
-  </div>
-
-  <div class="view" id="page-mtd">
   <nav class="tabs" id="tabs">
     <button data-target="sec-score" class="active">Score Card</button>
     <button data-target="sec-daily">Daily</button>
@@ -277,7 +205,6 @@
     <button data-target="sec-revenue">Revenue</button>
   </nav>
 
-  <main class="content">
   <!-- 1. SCORE CARD -->
   <section id="sec-score">
     <div class="sec-title">Score Card</div>
@@ -347,94 +274,8 @@
     <div class="group-label" id="countryLabel">Top Country</div>
     <div class="rc-card" id="countryBars"></div>
   </section>
-  </main>
 
   <footer id="footerText"></footer>
-  </div>
-  <!-- ===== end page-mtd ===== -->
-
-  <!-- ===================== HISTORICAL PERFORMANCE PAGE ===================== -->
-  <div class="view hidden" id="page-historical">
-  <nav class="tabs" id="histTabs">
-    <button data-target="hist-score" class="active">Score Card</button>
-    <button data-target="hist-revenue">Revenue Contributor</button>
-    <button data-target="hist-trend">Trend</button>
-  </nav>
-
-  <main class="content">
-
-  <div class="period-select-wrap">
-    <div class="period-select-label">Pilih Periode (2026)</div>
-    <select class="period-select" id="periodSelect"></select>
-  </div>
-
-  <!-- 1. HIST SCORE CARD -->
-  <section id="hist-score">
-    <div class="sec-title">Score Card</div>
-    <div class="sec-sub" id="histScoreSub">Roaming Retail &amp; Traveler Performance</div>
-
-    <div class="group-label">Roaming Retail Performance</div>
-    <div id="histKpiCards"></div>
-
-    <div class="group-label">Traveler Performance</div>
-    <div class="tlist">
-      <div class="thead">
-        <span class="tname">Metric</span>
-        <span class="tval">Bulan Ini</span>
-        <span class="tval">MoM</span>
-        <span class="tyoy">YoY</span>
-      </div>
-      <div id="histTravelerRows"></div>
-    </div>
-  </section>
-
-  <!-- 2. HIST REVENUE CONTRIBUTOR -->
-  <section id="hist-revenue">
-    <div class="sec-title">Revenue Contributor</div>
-    <div class="sec-sub" id="histRevenueSub">By Brand, Channel &amp; Country</div>
-
-    <div class="group-label">By Brand</div>
-    <div id="histBrandCards"></div>
-
-    <div class="group-label">By Channel</div>
-    <div class="rc-card" id="histChannelBars"></div>
-
-    <div class="group-label">Top Country</div>
-    <div class="rc-card" id="histCountryBars"></div>
-  </section>
-
-  <!-- 3. HIST TREND -->
-  <section id="hist-trend">
-    <div class="sec-title">Revenue Trend</div>
-    <div class="sec-sub">Jan–Jul 2026 vs periode sama 2025 · Kolom = revenue, Garis = YoY%</div>
-
-    <div class="dim-select" id="dimSelect">
-      <button data-dim="brand" class="active">Brand</button>
-      <button data-dim="channel">Channel</button>
-      <button data-dim="country">Country</button>
-    </div>
-
-    <div class="period-select-wrap" style="padding:0 0 14px;">
-      <div class="period-select-label">Tampilkan</div>
-      <select class="period-select" id="subDimSelect"></select>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-head">
-        <span class="chart-title" id="trendTitle">Revenue Trend — Brand: Total</span>
-      </div>
-      <div class="chart-legend" id="trendLegend" style="padding:0 4px 8px; flex-wrap:wrap; row-gap:6px;"></div>
-      <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
-      <div class="chart-foot" id="trendFoot"></div>
-    </div>
-  </section>
-
-  </main>
-
-  <footer id="histFooterText"></footer>
-  </div>
-  <!-- ===== end page-historical ===== -->
-
 </div>
 
 <script>
@@ -442,7 +283,7 @@
 // DATA — replace this object to refresh the dashboard.
 // Generated by Roaming Dashboard Generator.
 // ======================================================
-const DATA = {"meta": {"period": "MTD 11 Aug 2026", "subtitle": "Retail & Traveler · vs Aug 2025 (YoY)"}, "kpis": [{"label": "Revenue", "unit": "Bn IDR", "value": "28.7", "yoy": -11.2, "sub1": {"label": "Pack", "value": "25.3", "yoy": -6.9}, "sub2": {"label": "PAYU", "value": "3.4", "yoy": -34.2}}, {"label": "Roaming User", "unit": "k", "value": "179.5", "yoy": -17.7, "sub1": {"label": "Pack", "value": "109.4", "yoy": -12.4}, "sub2": {"label": "PAYU", "value": "87.2", "yoy": -24.1}}, {"label": "ARPU Roaming", "unit": "k IDR", "value": "160", "yoy": 7.8, "sub1": {"label": "Pack", "value": "231", "yoy": 6.2}, "sub2": {"label": "PAYU", "value": "39", "yoy": -13.2}}, {"label": "Pack Ticket Size", "unit": "k IDR", "value": "202", "yoy": 6.2, "sub1": {"label": "Halo", "value": "190", "yoy": 3.5}, "sub2": {"label": "SIMPATI", "value": "205", "yoy": 6.9}}], "traveler": [{"label": "Total Traveler (k)", "aug26": "225", "aug25": "461", "yoy": -51.2, "isPoint": false}, {"label": "Active Roamers (k)", "aug26": "91", "aug25": "192", "yoy": -52.6, "isPoint": false}, {"label": "Active Rate (%)", "aug26": "40.4%", "aug25": "41.6%", "yoy": -1.2, "isPoint": true}, {"label": "Active Package (k)", "aug26": "76", "aug25": "156", "yoy": -51.3, "isPoint": false}, {"label": "Package Rate (%)", "aug26": "83.5%", "aug25": "81.4%", "yoy": 2.1, "isPoint": true}], "daily": {"days": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "aug25": [2.8, 2.99, 3.09, 3.18, 2.89, 3.07, 2.96, 2.6, 2.92, 2.84, 2.96, 2.66], "aug26": [2.84, 2.59, 2.76, 2.61, 2.71, 2.56, 2.44, 2.63, 2.39, 2.54, 2.61, 2.77]}, "payu": {"days": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "package": [2.55, 2.3, 2.44, 2.29, 2.38, 2.23, 2.11, 2.33, 2.12, 2.24, 2.3, 2.44], "payu": [0.29, 0.29, 0.32, 0.32, 0.33, 0.33, 0.33, 0.3, 0.27, 0.3, 0.31, 0.33]}, "brands": [{"name": "Halo", "total": "6.8", "totalYoy": -18.1, "pack": "5.2", "packYoy": -7.9, "payu": "1.5", "payuYoy": -40.4}, {"name": "SIMPATI", "total": "21.9", "totalYoy": -8.9, "pack": "20.1", "packYoy": -6.7, "payu": "1.8", "payuYoy": -27.8}], "channels": [{"name": "MyTelkomsel", "revenue": "16.7", "yoy": -0.8, "contrib": 66.1}, {"name": "DigiPOS", "revenue": "4.8", "yoy": -14.1, "contrib": 19.1}, {"name": "Others", "revenue": "3.8", "yoy": -20.3, "contrib": 14.8}], "countries": [{"name": "Saudi Arabia", "revenue": "9.1", "yoy": -24.0, "contrib": 31.6}, {"name": "Malaysia", "revenue": "4.6", "yoy": -8.8, "contrib": 16.1}, {"name": "Singapore", "revenue": "2.6", "yoy": -10.7, "contrib": 9.2}, {"name": "China", "revenue": "2.3", "yoy": 6.0, "contrib": 8.1}, {"name": "Japan", "revenue": "1.2", "yoy": -19.2, "contrib": 4.1}]};
+const DATA = {"meta": {"period": "MTD 14 Aug 2026", "subtitle": "Retail & Traveler \u00b7 vs Aug 2025 (YoY)"}, "kpis": [{"label": "Revenue", "unit": "Bn IDR", "value": "37.2", "yoy": -8.8, "sub1": {"label": "Pack", "value": "32.8", "yoy": -4.1}, "sub2": {"label": "PAYU", "value": "4.4", "yoy": -33.2}}, {"label": "Roaming User", "unit": "k", "value": "233.1", "yoy": -13.7, "sub1": {"label": "Pack", "value": "146.5", "yoy": -9.1}, "sub2": {"label": "PAYU", "value": "121.1", "yoy": -21.2}}, {"label": "ARPU Roaming", "unit": "k IDR", "value": "159.4", "yoy": 5.7, "sub1": {"label": "Pack", "value": "223.8", "yoy": 5.5}, "sub2": {"label": "PAYU", "value": "36.1", "yoy": -15.2}}, {"label": "Pack Ticket Size", "unit": "k IDR", "value": "199.9", "yoy": 5.2, "sub1": {"label": "Halo", "value": "187.8", "yoy": 2.5}, "sub2": {"label": "SIMPATI", "value": "203.5", "yoy": 6.0}}], "traveler": [{"label": "Total Traveler (k)", "aug26": "227", "aug25": "540", "yoy": -57.9, "isPoint": false}, {"label": "Active Roamers (k)", "aug26": "94", "aug25": "227", "yoy": -58.6, "isPoint": false}, {"label": "Active Rate (%)", "aug26": "41.3%", "aug25": "42.0%", "yoy": -0.7, "isPoint": true}, {"label": "Active Package (k)", "aug26": "78", "aug25": "184", "yoy": -57.5, "isPoint": false}, {"label": "Package Rate (%)", "aug26": "83.2%", "aug25": "81.1%", "yoy": 2.2, "isPoint": true}], "daily": {"days": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "aug25": [2.8, 2.99, 3.09, 3.18, 2.89, 3.07, 2.96, 2.6, 2.92, 2.85, 2.95, 2.66, 2.82, 2.95], "aug26": [2.84, 2.59, 2.76, 2.61, 2.71, 2.56, 2.44, 2.63, 2.39, 2.54, 2.61, 2.77, 2.75, 2.96]}, "payu": {"days": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "package": [2.55, 2.3, 2.44, 2.29, 2.38, 2.23, 2.11, 2.33, 2.12, 2.24, 2.3, 2.44, 2.43, 2.61], "payu": [0.29, 0.29, 0.32, 0.32, 0.33, 0.33, 0.33, 0.3, 0.27, 0.3, 0.31, 0.33, 0.31, 0.35]}, "brands": [{"name": "Halo", "total": "9.2", "totalYoy": -13.2, "pack": "7.1", "packYoy": -1.3, "payu": "2.0", "payuYoy": -39.1}, {"name": "SIMPATI", "total": "28.0", "totalYoy": -7.3, "pack": "25.6", "packYoy": -4.9, "payu": "2.4", "payuYoy": -27.1}], "channels": [{"name": "MyTelkomsel", "revenue": "22.0", "yoy": 3.2, "contrib": 59.1}, {"name": "DigiPOS", "revenue": "5.9", "yoy": -14.3, "contrib": 15.9}, {"name": "Others", "revenue": "4.8", "yoy": -18.5, "contrib": 12.9}], "countries": [{"name": "Saudi Arabia", "revenue": "11.4", "yoy": -23.8, "contrib": 30.6}, {"name": "Malaysia", "revenue": "6.0", "yoy": -7.0, "contrib": 16.1}, {"name": "Singapore", "revenue": "3.5", "yoy": -4.5, "contrib": 9.4}, {"name": "China", "revenue": "3.0", "yoy": 9.4, "contrib": 8.1}, {"name": "Japan", "revenue": "1.5", "yoy": -16.9, "contrib": 4.0}]};
 
 // ---------- helpers ----------
 function yoyBadge(val, suffix){
@@ -611,382 +452,24 @@ document.getElementById('countryBars').innerHTML = DATA.countries.map((c,i)=>`
   </div>
 `).join('');
 
-
-// ======================================================
-// HISTORICAL DATA — monthly, Jan 2025 - Jul 2026
-// Generated from Monthly_Performance_2025-2026.xlsx
-// ======================================================
-const HIST = {"months":["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07"],"monthLabels":["Jan 25","Feb 25","Mar 25","Apr 25","Mei 25","Jun 25","Jul 25","Ags 25","Sep 25","Okt 25","Nov 25","Des 25","Jan 26","Feb 26","Mar 26","Apr 26","Mei 26","Jun 26","Jul 26"],"scorecard":{"revenue":{"total":[114.08,101.116,102.81,100.955,162.933,86.94,97.653,90.813,96.268,103.831,107.877,131.263,115.816,89.054,111.184,101.019,141.652,93.563,97.885],"pack":[93.812,84.866,85.669,81.592,145.292,69.187,80.795,75.969,80.142,86.315,90.189,110.108,97.698,75.9,92.66,87.477,126.451,78.499,85.16],"payu":[20.268,16.25,17.141,19.364,17.641,17.753,16.858,14.844,16.126,17.516,17.688,21.154,18.118,13.155,18.524,13.541,15.201,15.064,12.724]},"roamingUser":{"total":[626.295,589.226,527.461,498.608,659.768,553.309,522.366,519.959,510.426,545.286,561.97,631.464,594.823,456.333,512.537,429.334,506.498,476.067,493.848],"pack":[378.623,337.826,288.643,300.191,376.284,286.061,343.499,313.245,322.163,338.981,352.259,398.678,378.87,289.665,336.856,280.45,328.747,294.367,324.678],"payu":[346.27,333.098,314.17,281.025,370.382,344.261,259.661,278.631,277.365,290.074,294.606,334.85,304.343,232.54,262.631,211.858,250.234,249.098,237.076]},"arpu":{"total":[182.151,171.608,194.914,202.474,246.955,157.128,186.944,174.654,188.603,190.416,191.962,207.87,194.706,195.152,216.929,235.291,279.67,190.709,198.208],"pack":[247.773,251.213,296.798,271.799,386.124,241.861,235.211,242.523,248.762,254.63,256.03,276.183,257.866,262.027,275.074,311.917,384.645,260.736,262.292],"payu":[58.532,48.784,54.56,68.904,47.629,51.569,64.924,53.274,58.14,60.385,60.04,63.176,59.532,56.569,70.532,63.918,60.748,59.991,53.672]},"packTicket":{"total":[194.76,199.387,214.357,197.513,317.937,187.364,186.508,191.983,196.392,201.259,201.376,216.642,204.707,213.293,215.608,253.667,310.732,211.283,206.231],"halo":[194.455,194.897,223.3,196.421,234.114,203.795,185.408,186.151,199.222,207.771,203.199,242.972,205.035,201.592,226.7,207.072,237.772,216.872,195.547],"simpati":[194.862,200.819,210.417,197.981,344.134,181.026,186.857,193.703,195.442,199.028,200.756,206.284,204.595,217.075,210.933,270.143,334.474,209.285,209.492]}},"traveler":{"totalTraveler":[876.916,790.883,789.823,785.75,894.877,767.019,836.71,748.938,755.113,793.057,827.45,963.837,888.785,684.834,557.715,867.307,762.041,782.761,783.761],"activeRoamers":[451.972,407.009,365.196,356.244,458.417,351.819,393.049,367.631,384.701,405.708,422.069,496.885,452.156,346.527,271.783,375.739,403.876,367.549,368.549],"activeRate":[0.5154,0.5146,0.4624,0.4534,0.5123,0.4587,0.4698,0.4909,0.5095,0.5116,0.5101,0.5155,0.5087,0.506,0.4873,0.4332,0.53,0.4696,0.4702],"activePackage":[356.468,317.976,268.19,279.501,349.581,259.075,314.589,287.096,295.797,311.511,325.676,367.027,351.224,266.574,197.469,247.305,307.841,274.816,275.816],"packageRate":[0.7887,0.7813,0.7344,0.7846,0.7626,0.7364,0.8004,0.7809,0.7689,0.7678,0.7716,0.7387,0.7768,0.7693,0.7266,0.6582,0.7622,0.7477,0.7484]},"brand":{"Halo":{"total":[35.243,28.49,36.769,36.332,34.12,30.348,28.896,24.438,29.519,32.474,32.663,46.389,35.264,24.676,40.19,26.475,32.131,29.62,25.372],"pack":[23.523,20.057,27.293,24.328,25.475,20.946,19.35,16.776,20.436,22.742,23.086,34.863,24.822,17.525,28.887,18.654,23.756,21.219,18.882],"payu":[11.721,8.433,9.475,12.004,8.645,9.402,9.546,7.662,9.083,9.732,9.577,11.526,10.442,7.151,11.303,7.821,8.375,8.401,6.49]},"SIMPATI":{"total":[78.837,72.626,66.041,64.623,128.813,56.592,68.757,66.375,66.749,71.358,75.214,84.874,80.552,64.379,70.994,74.543,109.521,63.943,72.513],"pack":[70.29,64.809,58.375,57.264,119.817,48.241,61.445,59.193,59.706,63.573,67.102,75.245,72.876,58.375,63.773,68.823,102.695,57.28,66.279],"payu":[8.547,7.817,7.666,7.36,8.995,8.352,7.312,7.182,7.043,7.784,8.111,9.628,7.676,6.003,7.221,5.721,6.826,6.664,6.234]}},"channel":{"MyTelkomsel":[62.584,55.246,61.693,58.087,64.782,51.328,53.004,47.695,53.532,58.924,61.488,81.879,69.682,51.955,71.22,50.267,64.245,57.936,55.779],"DigiPOS":[15.239,15.643,9.057,9.844,60.848,5.172,13.715,15.526,13.387,13.649,14.543,11.612,14.485,13.353,8.817,26.573,47.907,9.418,17.088],"Others":[15.99,13.977,14.919,13.661,19.662,12.687,14.075,12.749,13.223,13.741,14.157,16.616,13.53,10.592,12.623,10.637,14.299,11.145,12.293]},"country":{"Saudi Arabia":[39.443,39.154,29.197,23.19,94.282,16.078,29.041,31.004,27.654,29.692,33.007,32.032,36.399,33.358,29.387,36.885,74.288,21.498,31.029],"Malaysia":[16.985,13.906,11.436,14.112,13.382,13.633,16.673,14.315,13.909,15.041,14.752,18.782,17.52,12.137,13.957,12.431,12.425,14.822,15.172],"Singapore":[12.286,9.591,13.488,14.178,10.202,10.054,10.262,8.751,10.022,10.543,10.664,13.453,10.713,7.959,10.189,8.176,8.472,9.229,9.397],"China":[5.923,5.631,10.22,10.224,8.551,9.712,7.208,6.84,9.763,10.54,9.784,14.042,9.586,5.338,14.14,10.718,10.558,10.623,7.733],"Japan":[8.163,5.979,8.037,7.877,6.283,6.369,4.671,4.088,5.127,6.494,6.805,10.778,8.42,5.62,9.666,6.532,6.204,5.855,4.405]}};
-
-const SELECTABLE_START = 12; // Jan 2026 index
-const SELECTABLE_END = HIST.months.length - 1; // latest month index (Jul 2026)
-
-const ID_MONTH_FULL = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-function fullMonthName(iso){
-  const parts = iso.split('-');
-  return ID_MONTH_FULL[parseInt(parts[1],10)-1] + ' ' + parts[0];
-}
-
-function fmt1(v){ return (v==null) ? '–' : v.toFixed(1); }
-function fmt0(v){ return (v==null) ? '–' : Math.round(v).toString(); }
-function signed(v, dec){ dec = dec==null?1:dec; if(v==null) return '–'; return (v>=0?'+':'') + v.toFixed(dec) + '%'; }
-
-function pctChange(cur, prev){
-  if(prev === 0 || prev == null || cur == null) return null;
-  return (cur - prev) / prev * 100;
-}
-
-// YTD sum/avg from Jan of that year through idx (inclusive)
-function ytdAgg(arr, idx, mode){
-  const moy = (idx % 12); // 0-based month-of-year
-  const yearStart = idx - moy;
-  const slice = arr.slice(yearStart, idx+1).filter(v=>v!=null);
-  const sum = slice.reduce((a,b)=>a+b, 0);
-  return mode === 'avg' ? sum/slice.length : sum;
-}
-
-// Full MoM / YoY / YTD summary for one monthly series at index idx
-function metricSummary(arr, idx, mode){
-  mode = mode || 'sum';
-  const cur = arr[idx];
-  const mom = pctChange(cur, arr[idx-1]);
-  const yoy = pctChange(cur, arr[idx-12]);
-  const ytdCur = ytdAgg(arr, idx, mode);
-  const ytdPrior = (idx-12 >= 0) ? ytdAgg(arr, idx-12, mode) : null;
-  const ytdYoy = pctChange(ytdCur, ytdPrior);
-  return {cur, mom, yoy, ytdCur, ytdYoy};
-}
-
-// ---------- Period selector ----------
-const periodSelect = document.getElementById('periodSelect');
-for(let i = SELECTABLE_START; i <= SELECTABLE_END; i++){
-  const opt = document.createElement('option');
-  opt.value = i;
-  opt.textContent = fullMonthName(HIST.months[i]);
-  periodSelect.appendChild(opt);
-}
-periodSelect.value = SELECTABLE_END;
-
-// ---------- Score Card (KPI cards) ----------
-function renderHistScoreCard(idx){
-  const sc = HIST.scorecard;
-  const kpiDefs = [
-    {label:'Revenue', unit:'Bn IDR', fmt:fmt1, ytdMode:'sum', ytdUnit:'Bn IDR',
-      m: metricSummary(sc.revenue.total, idx, 'sum'),
-      sub1:{label:'Pack', m: metricSummary(sc.revenue.pack, idx, 'sum')},
-      sub2:{label:'PAYU', m: metricSummary(sc.revenue.payu, idx, 'sum')}},
-    {label:'Roaming User', unit:'k', fmt:fmt1, ytdMode:'sum', ytdUnit:'k',
-      m: metricSummary(sc.roamingUser.total, idx, 'sum'),
-      sub1:{label:'Pack', m: metricSummary(sc.roamingUser.pack, idx, 'sum')},
-      sub2:{label:'PAYU', m: metricSummary(sc.roamingUser.payu, idx, 'sum')}},
-    {label:'ARPU Roaming', unit:'k IDR', fmt:fmt0, ytdMode:'avg', ytdUnit:'k IDR',
-      m: metricSummary(sc.arpu.total, idx, 'avg'),
-      sub1:{label:'Pack', m: metricSummary(sc.arpu.pack, idx, 'avg')},
-      sub2:{label:'PAYU', m: metricSummary(sc.arpu.payu, idx, 'avg')}},
-    {label:'Pack Ticket Size', unit:'k IDR', fmt:fmt0, ytdMode:'avg', ytdUnit:'k IDR',
-      m: metricSummary(sc.packTicket.total, idx, 'avg'),
-      sub1:{label:'Halo', m: metricSummary(sc.packTicket.halo, idx, 'avg')},
-      sub2:{label:'SIMPATI', m: metricSummary(sc.packTicket.simpati, idx, 'avg')}}
-  ];
-
-  document.getElementById('histKpiCards').innerHTML = kpiDefs.map(k => `
-    <div class="kpi-card">
-      <div class="kpi-main">
-        <div>
-          <div class="kpi-label">${k.label}</div>
-          <div><span class="kpi-value">${k.fmt(k.m.cur)}</span><span class="kpi-unit">${k.unit}</span></div>
-        </div>
-        ${yoyBadge(k.m.yoy)}
-      </div>
-      <div class="stub-divider"></div>
-      <div class="kpi-breakdown">
-        <div class="kpi-break-item">
-          <div class="kpi-break-label">${k.sub1.label}</div>
-          <div class="kpi-break-row"><span class="kpi-break-value">${k.fmt(k.sub1.m.cur)}</span>${yoyBadge(k.sub1.m.yoy)}</div>
-        </div>
-        <div class="kpi-break-item">
-          <div class="kpi-break-label">${k.sub2.label}</div>
-          <div class="kpi-break-row"><span class="kpi-break-value">${k.fmt(k.sub2.m.cur)}</span>${yoyBadge(k.sub2.m.yoy)}</div>
-        </div>
-      </div>
-      <div class="kpi-extra">
-        <div class="kpi-extra-item">
-          <div class="kpi-extra-label">MoM</div>
-          <div class="kpi-extra-row">${yoyBadge(k.m.mom)}</div>
-        </div>
-        <div class="kpi-extra-item">
-          <div class="kpi-extra-label">YTD${k.ytdMode==='avg' ? ' (avg)' : ''}</div>
-          <div class="kpi-extra-row"><span class="kpi-extra-val">${k.fmt(k.m.ytdCur)} ${k.ytdUnit}</span>${yoyBadge(k.m.ytdYoy)}</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ---------- Traveler Performance ----------
-const TRAVELER_METRICS = [
-  {key:'totalTraveler', label:'Total Traveler (k)', isRate:false},
-  {key:'activeRoamers', label:'Active Roamers (k)', isRate:false},
-  {key:'activeRate', label:'Active Rate (%)', isRate:true},
-  {key:'activePackage', label:'Active Package (k)', isRate:false},
-  {key:'packageRate', label:'Package Rate (%)', isRate:true}
-];
-function renderHistTraveler(idx){
-  document.getElementById('histTravelerRows').innerHTML = TRAVELER_METRICS.map(m=>{
-    const arr = HIST.traveler[m.key];
-    const cur = arr[idx];
-    let valFmt, mom, yoy, suffix;
-    if(m.isRate){
-      valFmt = (cur*100).toFixed(1)+'%';
-      mom = (cur - arr[idx-1]) * 100;
-      yoy = (cur - arr[idx-12]) * 100;
-      suffix = 'pt';
-    } else {
-      valFmt = fmt1(cur);
-      mom = pctChange(cur, arr[idx-1]);
-      yoy = pctChange(cur, arr[idx-12]);
-      suffix = '%';
-    }
-    return `<div class="trow">
-      <span class="tname">${m.label}</span>
-      <span class="tval"><b>${valFmt}</b></span>
-      <span class="tval">${yoyBadge(mom, suffix)}</span>
-      <span class="tyoy">${yoyBadge(yoy, suffix)}</span>
-    </div>`;
-  }).join('');
-}
-
-// ---------- Revenue Contributor (Brand / Channel / Country) ----------
-function renderContribBars(elId, groupObj, idx, totalRev){
-  const names = Object.keys(groupObj);
-  document.getElementById(elId).innerHTML = names.map((name,i)=>{
-    const m = metricSummary(groupObj[name], idx, 'sum');
-    const contrib = totalRev ? (m.cur/totalRev*100) : 0;
-    return `
-    <div class="bar-row">
-      <div class="bar-top">
-        <div class="bar-left"><span class="bar-rank">${i+1}</span><span class="bar-name">${name}</span></div>
-        <div class="bar-right"><span class="bar-val">${fmt1(m.cur)} Bn</span>${yoyBadge(m.yoy)}</div>
-      </div>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.min(contrib,100).toFixed(1)}%"></div></div>
-      <div class="bar-contrib">${contrib.toFixed(1)}% of total revenue</div>
-      <div class="bar-extra">MoM <b>${signed(m.mom)}</b> · YTD <b>${fmt1(m.ytdCur)} Bn</b> (${signed(m.ytdYoy)} YoY)</div>
-    </div>`;
-  }).join('');
-}
-
-function renderHistRevenue(idx){
-  const totalRev = HIST.scorecard.revenue.total[idx];
-
-  document.getElementById('histBrandCards').innerHTML = Object.keys(HIST.brand).map(name=>{
-    const b = HIST.brand[name];
-    const tot = metricSummary(b.total, idx, 'sum');
-    const pack = metricSummary(b.pack, idx, 'sum');
-    const payu = metricSummary(b.payu, idx, 'sum');
-    return `
-    <div class="rc-card">
-      <div class="rc-head">
-        <span class="rc-name">${name}</span>
-        <div class="rc-total"><span class="rc-total-val">${fmt1(tot.cur)} Bn</span>${yoyBadge(tot.yoy)}</div>
-      </div>
-      <div class="rc-sub">
-        <div class="rc-sub-item">
-          <div class="rc-sub-label">Pack</div>
-          <div class="rc-sub-row"><span class="rc-sub-val">${fmt1(pack.cur)}</span>${yoyBadge(pack.yoy)}</div>
-        </div>
-        <div class="rc-sub-item">
-          <div class="rc-sub-label">PAYU</div>
-          <div class="rc-sub-row"><span class="rc-sub-val">${fmt1(payu.cur)}</span>${yoyBadge(payu.yoy)}</div>
-        </div>
-      </div>
-      <div class="bar-extra">MoM <b>${signed(tot.mom)}</b> · YTD <b>${fmt1(tot.ytdCur)} Bn</b> (${signed(tot.ytdYoy)} YoY)</div>
-    </div>`;
-  }).join('');
-
-  renderContribBars('histChannelBars', HIST.channel, idx, totalRev);
-  renderContribBars('histCountryBars', HIST.country, idx, totalRev);
-}
-
-// ---------- Subtitles / footer per selected period ----------
-function updateHistSubtitles(idx){
-  const label = fullMonthName(HIST.months[idx]);
-  const yearAgoLabel = label.split(' ')[0] + ' 2025';
-  document.getElementById('histScoreSub').textContent = `Periode ${label} · vs ${yearAgoLabel} (YoY)`;
-  document.getElementById('histRevenueSub').textContent = `By Brand, Channel & Country · ${label}`;
-  document.getElementById('histFooterText').textContent = 'Telkomsel Roaming · Historical Performance · Data periode ' + label;
-}
-
-// ---------- Master render + period change binding ----------
-function renderHistoricalAll(){
-  const idx = parseInt(periodSelect.value, 10);
-  updateHistSubtitles(idx);
-  renderHistScoreCard(idx);
-  renderHistTraveler(idx);
-  renderHistRevenue(idx);
-}
-periodSelect.addEventListener('change', renderHistoricalAll);
-renderHistoricalAll();
-
-// ---------- Trend chart (Brand / Channel / Country, Total or drill-down, 2026 vs 2025) ----------
-const TREND_MONTHS_2026 = HIST.months.slice(SELECTABLE_START); // Jan26..Jul26
-const TREND_LABELS = HIST.monthLabels.slice(SELECTABLE_START);
-const COLOR_2025 = '#B9C1D4';
-const COLOR_2026 = '#0B1F44';
-const COLOR_YOY_LINE = '#E4002B';
-
-function getDimObj(dim){
-  if(dim === 'brand') return HIST.brand;
-  if(dim === 'channel') return HIST.channel;
-  return HIST.country;
-}
-// For brand, each item is {total,pack,payu}; for channel/country, each item is a plain monthly array.
-function getSeriesArr(dim, itemObj){
-  return dim === 'brand' ? itemObj.total : itemObj;
-}
-
-// Returns the 7-month (Jan26-Jul26) array for either the dimension's Total
-// (sum across all its items) or one specific item, for both years.
-function getYearArrays(dim, subKey){
-  const namesObj = getDimObj(dim);
-  const names = Object.keys(namesObj);
-
-  function monthValue(names, monthIdx){
-    return names.reduce((s, name) => s + getSeriesArr(dim, namesObj[name])[monthIdx], 0);
-  }
-
-  const cur2026 = [];
-  const prior2025 = [];
-  for(let i = 0; i < TREND_MONTHS_2026.length; i++){
-    const idx2026 = SELECTABLE_START + i;
-    const idx2025 = idx2026 - 12;
-    if(subKey === 'total'){
-      cur2026.push(monthValue(names, idx2026));
-      prior2025.push(monthValue(names, idx2025));
-    } else {
-      cur2026.push(getSeriesArr(dim, namesObj[subKey])[idx2026]);
-      prior2025.push(getSeriesArr(dim, namesObj[subKey])[idx2025]);
-    }
-  }
-  return {cur2026, prior2025, names};
-}
-
-function populateSubDimSelect(dim){
-  const namesObj = getDimObj(dim);
-  const names = Object.keys(namesObj);
-  const sel = document.getElementById('subDimSelect');
-  sel.innerHTML = '';
-  const totalOpt = document.createElement('option');
-  totalOpt.value = 'total';
-  totalOpt.textContent = 'Total ' + dim.charAt(0).toUpperCase() + dim.slice(1);
-  sel.appendChild(totalOpt);
-  names.forEach(name=>{
-    const opt = document.createElement('option');
-    opt.value = name;
-    opt.textContent = name;
-    sel.appendChild(opt);
-  });
-  sel.value = 'total';
-}
-
-let trendChart = null;
-let currentTrendDim = 'brand';
-
-function renderTrendChart(dim, subKey){
-  currentTrendDim = dim;
-  subKey = subKey || 'total';
-  const {cur2026, prior2025} = getYearArrays(dim, subKey);
-
-  const dimLabel = dim.charAt(0).toUpperCase() + dim.slice(1);
-  const subLabel = subKey === 'total' ? 'Total' : subKey;
-  document.getElementById('trendTitle').textContent = `Revenue Trend — ${dimLabel}: ${subLabel}`;
-
-  const yoyLine = cur2026.map((v,i)=> prior2025[i] ? +((v - prior2025[i]) / prior2025[i] * 100).toFixed(1) : null);
-
-  const datasets = [
-    {type:'bar', label:'2025', data: prior2025.map(v=>+v.toFixed(2)), backgroundColor: COLOR_2025, borderRadius:2, maxBarThickness:26},
-    {type:'bar', label:'2026', data: cur2026.map(v=>+v.toFixed(2)), backgroundColor: COLOR_2026, borderRadius:2, maxBarThickness:26},
-    {type:'line', label:'YoY %', data: yoyLine, borderColor: COLOR_YOY_LINE, backgroundColor: COLOR_YOY_LINE,
-     borderWidth:2.5, pointRadius:3, pointBackgroundColor: COLOR_YOY_LINE, tension:0.3, yAxisID:'y1'}
-  ];
-
-  document.getElementById('trendLegend').innerHTML = `
-    <div class="leg-item"><span class="leg-dot" style="background:${COLOR_2025};"></span>2025</div>
-    <div class="leg-item"><span class="leg-dot" style="background:${COLOR_2026};"></span>2026</div>
-    <div class="leg-item"><span class="leg-dot" style="background:${COLOR_YOY_LINE}; border-radius:2px;"></span>YoY %</div>
-  `;
-
-  const avgYoy = yoyLine.filter(v=>v!=null);
-  const avgYoyVal = avgYoy.reduce((a,b)=>a+b,0) / avgYoy.length;
-  document.getElementById('trendFoot').innerHTML = `<span>Rata-rata YoY Jan–Jul 2026: <b>${signed(avgYoyVal)}</b></span>`;
-
-  if(trendChart){ trendChart.destroy(); }
-  trendChart = new Chart(document.getElementById('trendChart'), {
-    type:'bar',
-    data:{ labels: TREND_LABELS, datasets },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false}, tooltip:{mode:'index', intersect:false} },
-      scales:{
-        x:{ grid:{display:false}, ticks:{font:{size:10}} },
-        y:{ position:'left', grid:{color:'#F1F2F6'}, ticks:{font:{size:10}}, title:{display:true, text:'Bn IDR', font:{size:10}} },
-        y1:{ position:'right', grid:{display:false}, ticks:{font:{size:10}, callback:(v)=>v+'%'}, title:{display:true, text:'YoY %', font:{size:10}} }
-      }
-    }
-  });
-}
-
-document.querySelectorAll('#dimSelect button').forEach(btn=>{
+// ---------- Tab navigation ----------
+const tabs = document.querySelectorAll('#tabs button');
+const sections = Array.from(tabs).map(t => document.getElementById(t.dataset.target));
+tabs.forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    document.querySelectorAll('#dimSelect button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    populateSubDimSelect(btn.dataset.dim);
-    renderTrendChart(btn.dataset.dim, 'total');
+    document.getElementById(btn.dataset.target).scrollIntoView({behavior:'smooth', block:'start'});
   });
 });
-document.getElementById('subDimSelect').addEventListener('change', (e)=>{
-  renderTrendChart(currentTrendDim, e.target.value);
-});
-
-populateSubDimSelect('brand');
-renderTrendChart('brand', 'total');
-
-
-// ---------- Tab navigation (reusable for both pages) ----------
-function setupTabNav(navId){
-  const tabs = document.querySelectorAll('#'+navId+' button');
-  const sections = Array.from(tabs).map(t => document.getElementById(t.dataset.target));
-  tabs.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.getElementById(btn.dataset.target).scrollIntoView({behavior:'smooth', block:'start'});
-    });
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tabs.forEach(b=>b.classList.remove('active'));
+      const idx = sections.indexOf(e.target);
+      if(idx>-1) tabs[idx].classList.add('active');
+    }
   });
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        tabs.forEach(b=>b.classList.remove('active'));
-        const idx = sections.indexOf(e.target);
-        if(idx>-1) tabs[idx].classList.add('active');
-      }
-    });
-  }, {rootMargin:"-45% 0px -50% 0px", threshold:0});
-  sections.forEach(s=>io.observe(s));
-}
-setupTabNav('tabs');
-setupTabNav('histTabs');
-
-// ---------- Page switcher (MTD vs Historical) ----------
-const pageBtns = document.querySelectorAll('#pageSwitch button');
-const pageViews = {mtd: document.getElementById('page-mtd'), historical: document.getElementById('page-historical')};
-pageBtns.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    pageBtns.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    Object.entries(pageViews).forEach(([key, el])=>{
-      el.classList.toggle('hidden', key !== btn.dataset.page);
-    });
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
-});
+}, {rootMargin:"-45% 0px -50% 0px", threshold:0});
+sections.forEach(s=>io.observe(s));
 </script>
 </body>
 </html>

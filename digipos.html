@@ -75,6 +75,12 @@
   select.period-chip{-webkit-appearance:none; appearance:none; cursor:pointer;}
   select.period-chip option{color:#16213E;}
   .subtitle{font-size:12.5px; color:rgba(255,255,255,0.75); margin-top:12px; position:relative; z-index:1;}
+  .cross-nav-link{
+    display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:rgba(255,255,255,0.9);
+    border:1px solid rgba(255,255,255,0.3); padding:5px 12px; border-radius:20px; margin-top:12px;
+    text-decoration:none; position:relative; z-index:1;
+  }
+  .cross-nav-link:active{background:rgba(255,255,255,0.12);}
 
   /* ---------- PAGE SWITCH ---------- */
   .page-switch{display:flex; gap:8px; padding:12px 16px 0;}
@@ -156,6 +162,12 @@
   .kpi-spark-wrap{padding:12px 18px 14px;}
   .kpi-spark-wrap .spark{width:100%; height:44px; display:block;}
   .kpi-cmp{font-size:11px; color:var(--ink-faint); margin-top:6px;}
+  .kpi-breakdown{display:flex; padding:12px 18px 14px;}
+  .kpi-break-item{flex:1; min-width:0;}
+  .kpi-break-item + .kpi-break-item{border-left:1px solid var(--line); padding-left:14px; margin-left:14px;}
+  .kpi-break-label{font-size:10.5px; color:var(--ink-soft); font-weight:600; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .kpi-break-row{display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;}
+  .kpi-break-value{font-size:14px; font-weight:700;}
 
   /* ---------- yoy / growth pill ---------- */
   .yoy{display:inline-flex; align-items:center; gap:3px; font-size:11.5px; font-weight:700; padding:2px 8px; border-radius:20px;}
@@ -239,6 +251,8 @@
     <select class="period-chip" id="monthFilter"></select>
   </div>
   <div class="subtitle" id="headerSubtitle">Roaming Product Marketing · Telkomsel</div>
+  <!-- TODO: sesuaikan href di bawah dengan path routing Roaming dashboard Anda -->
+  <a class="cross-nav-link" href="/roaming">← Roaming Dashboard</a>
 </header>
 
 <div class="page-switch">
@@ -783,13 +797,37 @@ function sparkSVG(values, color, w=300, h=52){
   </svg>`;
 }
 
+function priorMonthPeriod(period){
+  const y = Math.floor(period/100), m = period%100;
+  return m===1 ? (y-1)*100+12 : period-1;
+}
+function ytdTotals(period, filters){
+  const y = Math.floor(period/100), m = period%100;
+  let sum = {subs:0, trx:0, revenue:0}, any = false;
+  for(let mm=1; mm<=m; mm++){
+    const p = y*100+mm;
+    if(!PERIODS.includes(p)) continue;
+    const t = periodTotals(p, filters);
+    if(!t) continue;
+    any = true;
+    sum.subs += t.subs; sum.trx += t.trx; sum.revenue += t.revenue;
+  }
+  return any ? sum : null;
+}
+function ytdMetrics(period, filters){
+  return deriveMetrics(ytdTotals(period, filters));
+}
+
 let kpiObserver = null;
 function renderKPIs(){
   const priorPeriod = selectedPeriod - 100;
+  const momPeriod = priorMonthPeriod(selectedPeriod);
   const currTotals = deriveMetrics(periodTotals(selectedPeriod, scorecardFilter));
   const priorTotals = deriveMetrics(periodTotals(priorPeriod, scorecardFilter));
-  const sparkPeriods = PERIODS.filter(p => p > priorPeriod && p <= selectedPeriod);
-  const sparkSeriesFor = (key) => sparkPeriods.map(p => deriveMetrics(periodTotals(p, scorecardFilter))[key]);
+  const momTotals = deriveMetrics(periodTotals(momPeriod, scorecardFilter));
+  const ytdCur = ytdMetrics(selectedPeriod, scorecardFilter);
+  const ytdPrior = ytdMetrics(priorPeriod, scorecardFilter);
+  const ytdYear = Math.floor(selectedPeriod/100);
 
   const list = document.getElementById('kpiCarousel');
   list.innerHTML = kpiDefs.map((d) => {
@@ -798,7 +836,14 @@ function renderKPIs(){
     const growth = (prev!==null && prev!==undefined) ? yoy(curr, prev) : null;
     const growthCls = growth===null ? 'flat' : (growth>=0 ? 'pos':'neg');
     const arrow = growth===null ? '' : (growth>=0?'▲':'▼');
-    const spark = sparkSVG(sparkSeriesFor(d.key), d.color);
+
+    const momVal = momTotals[d.key];
+    const momGrowth = (momVal!==null && momVal!==undefined) ? yoy(curr, momVal) : null;
+
+    const ytdVal = ytdCur[d.key];
+    const ytdPriorVal = ytdPrior[d.key];
+    const ytdGrowth = (ytdPriorVal!==null && ytdPriorVal!==undefined) ? yoy(ytdVal, ytdPriorVal) : null;
+
     return `
       <div class="kpi-card">
         <div class="kpi-main">
@@ -809,9 +854,15 @@ function renderKPIs(){
           <span class="yoy ${growthCls}">${arrow} ${growth===null?'n/a':fmtPct(growth).replace('+','')}</span>
         </div>
         <div class="stub-divider"></div>
-        <div class="kpi-spark-wrap">
-          ${spark}
-          <div class="kpi-cmp">vs ${periodLabel(priorPeriod)}</div>
+        <div class="kpi-breakdown">
+          <div class="kpi-break-item">
+            <div class="kpi-break-label">MoM · ${periodLabel(momPeriod)}</div>
+            <div class="kpi-break-row"><span class="kpi-break-value num">${d.fmt(momVal)}</span>${fmtYoyPill(momGrowth)}</div>
+          </div>
+          <div class="kpi-break-item">
+            <div class="kpi-break-label">YTD ${ytdYear}</div>
+            <div class="kpi-break-row"><span class="kpi-break-value num">${d.fmt(ytdVal)}</span>${fmtYoyPill(ytdGrowth)}</div>
+          </div>
         </div>
       </div>`;
   }).join('');
@@ -1247,9 +1298,14 @@ function mtdKpiDefs(){
   const trx25 = mtdDailySeries(5), trx26 = mtdDailySeries(6);
   const revCur = mtdSumUpTo(rev26, MTD_CUTOFF), revPrior = mtdSumUpTo(rev25, MTD_CUTOFF);
   const trxCur = mtdSumUpTo(trx26, MTD_CUTOFF), trxPrior = mtdSumUpTo(trx25, MTD_CUTOFF);
+  const revFullAug25 = rev25.reduce((a,b)=>a+b,0);
+  const trxFullAug25 = trx25.reduce((a,b)=>a+b,0);
+  const daysSoFar = MTD_CUTOFF+1;
   return [
-    {key:'revenue', label:'Revenue', color:'#E4032B', cur:revCur*1000000, prior:revPrior*1000000, fmt:v=>fmtRp(v), sparkArr:rev26},
-    {key:'trx', label:'Transactions', color:'#0B1B3A', cur:trxCur, prior:trxPrior, fmt:v=>fmtInt(v), sparkArr:trx26}
+    {key:'revenue', label:'Revenue', color:'#E4032B', cur:revCur*1000000, prior:revPrior*1000000, fmt:v=>fmtRp(v),
+     avgPerDay:(revCur*1000000)/daysSoFar, projection:(revCur*1000000)/daysSoFar*31, fullPriorYear:revFullAug25*1000000},
+    {key:'trx', label:'Transactions', color:'#0B1B3A', cur:trxCur, prior:trxPrior, fmt:v=>fmtInt(v),
+     avgPerDay:trxCur/daysSoFar, projection:trxCur/daysSoFar*31, fullPriorYear:trxFullAug25}
   ];
 }
 
@@ -1260,8 +1316,9 @@ function renderMtdKpis(){
     const growth = (d.prior!==null && d.prior!==undefined && d.prior!==0) ? yoy(d.cur, d.prior) : null;
     const growthCls = growth===null ? 'flat' : (growth>=0 ? 'pos' : 'neg');
     const arrow = growth===null ? '' : (growth>=0 ? '▲' : '▼');
-    const sparkSeries = d.sparkArr.slice(0, MTD_CUTOFF+1);
-    const spark = sparkSVG(sparkSeries, d.color);
+
+    const projGrowth = d.fullPriorYear ? yoy(d.projection, d.fullPriorYear) : null;
+
     return `
       <div class="kpi-card">
         <div class="kpi-main">
@@ -1272,9 +1329,15 @@ function renderMtdKpis(){
           <span class="yoy ${growthCls}">${arrow} ${growth===null?'n/a':fmtPct(growth).replace('+','')}</span>
         </div>
         <div class="stub-divider"></div>
-        <div class="kpi-spark-wrap">
-          ${spark}
-          <div class="kpi-cmp">vs periode sama Ags-25</div>
+        <div class="kpi-breakdown">
+          <div class="kpi-break-item">
+            <div class="kpi-break-label">Rata-rata/hari</div>
+            <div class="kpi-break-row"><span class="kpi-break-value num">${d.fmt(d.avgPerDay)}</span></div>
+          </div>
+          <div class="kpi-break-item">
+            <div class="kpi-break-label">Proyeksi Akhir Bulan</div>
+            <div class="kpi-break-row"><span class="kpi-break-value num">${d.fmt(d.projection)}</span>${fmtYoyPill(projGrowth)}</div>
+          </div>
         </div>
       </div>`;
   }).join('');
