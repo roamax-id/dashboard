@@ -803,13 +803,13 @@ function renderHistScoreCard(idx){
 }
 
 // ---------- Traveler Performance ----------
-//const TRAVELER_METRICS = [
-//  {key:'totalTraveler', label:'Total Traveler (k)', isRate:false},
-//  {key:'activeRoamers', label:'Active Roamers (k)', isRate:false},
-//  {key:'activeRate', label:'Active Rate (%)', isRate:true},
-//  {key:'activePackage', label:'Active Package (k)', isRate:false},
-//  {key:'packageRate', label:'Package Rate (%)', isRate:true}
-//];
+const TRAVELER_METRICS = [
+  {key:'totalTraveler', label:'Total Traveler (k)', isRate:false},
+  {key:'activeRoamers', label:'Active Roamers (k)', isRate:false},
+  {key:'activeRate', label:'Active Rate (%)', isRate:true},
+  {key:'activePackage', label:'Active Package (k)', isRate:false},
+  {key:'packageRate', label:'Package Rate (%)', isRate:true}
+];
 function renderHistTraveler(idx){
   document.getElementById('histTravelerRows').innerHTML = TRAVELER_METRICS.map(m=>{
     const arr = HIST.traveler[m.key];
