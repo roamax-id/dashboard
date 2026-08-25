@@ -292,11 +292,11 @@ const SERIES = {
 };
 
 const KPI_DEFS = [
-  {key:'retail',        label:'Revenue Retail',  unit:'Bn IDR', invert:false, isRate:false},
-  {key:'tapOut',        label:'Revenue Tap Out', unit:'Bn IDR', invert:false, isRate:false},
-  {key:'tapInCost',     label:'Tap In Cost',     unit:'Bn IDR', invert:true,  isRate:false},
-  {key:'netRoaming',    label:'Net Roaming',     unit:'Bn IDR', invert:false, isRate:false},
-  {key:'profitability', label:'Profitability',   unit:'%',      invert:false, isRate:true}
+  {key:'retail',        label:'Revenue Retail',  unit:'Bn IDR', invert:false, isRate:false, group:'Revenue'},
+  {key:'tapOut',        label:'Revenue Tap Out', unit:'Bn IDR', invert:false, isRate:false, group:'Revenue'},
+  {key:'tapInCost',     label:'Tap In Cost',     unit:'Bn IDR', invert:true,  isRate:false, group:'Cost'},
+  {key:'netRoaming',    label:'Net Roaming',     unit:'Bn IDR', invert:false, isRate:false, group:'Profit'},
+  {key:'profitability', label:'Profitability',   unit:'%',      invert:false, isRate:true,  group:'Profit'}
 ];
 
 // ---------- helpers ----------
