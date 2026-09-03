@@ -427,7 +427,7 @@
 
 <footer class="page-foot">
   <div>DigiPOS Performance Dashboard · Roaming Product Marketing — Telkomsel</div>
-  <div>Sumber data: mkt_so.ws_roaming_summary_dd · Periode 1 Jan 2025 – 31 Jul 2026</div>
+  <div>Sumber data: mkt_so.ws_roaming_summary_dd</div>
 </footer>
 
 </div>
@@ -1291,10 +1291,10 @@ function mtdFilterRows(){
 
 function mtdDailySeries(colIdx){
   const rows = mtdFilterRows();
-  const days = new Array(31).fill(0);
+  const days = new Array(30).fill(0);
   rows.forEach(r => {
     const arr = r[colIdx];
-    for(let d=0; d<31; d++) days[d] += arr[d];
+    for(let d=0; d<30; d++) days[d] += arr[d];
   });
   return days;
 }
@@ -1302,10 +1302,10 @@ function mtdDailySeries(colIdx){
 /* Auto-detect MTD cutoff day: last day index (0-based) with nonzero total Aug-26 revenue.
    This makes the dashboard automatically extend as new daily data is added later. */
 function mtdDetectCutoff(){
-  const totals = new Array(31).fill(0);
-  DAILY.forEach(r => { const a = r[4]; for(let d=0; d<31; d++) totals[d] += a[d]; });
+  const totals = new Array(30).fill(0);
+  DAILY.forEach(r => { const a = r[4]; for(let d=0; d<30; d++) totals[d] += a[d]; });
   let last = -1;
-  for(let d=0; d<31; d++){ if(totals[d] > 0) last = d; }
+  for(let d=0; d<30; d++){ if(totals[d] > 0) last = d; }
   return last;
 }
 const MTD_CUTOFF = mtdDetectCutoff(); // 0-based index; e.g. 13 = data through day 14
