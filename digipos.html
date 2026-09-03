@@ -1368,10 +1368,10 @@ function renderMtdKpis(){
   if(mtdFilter.branch!=='All') scopeParts.push(mtdFilter.branch);
   if(mtdFilter.cluster!=='All') scopeParts.push(mtdFilter.cluster);
   document.getElementById('mtdKpiSub').textContent =
-    `1–${MTD_CUTOFF+1} Ags 2026 vs 1–${MTD_CUTOFF+1} Ags 2025 (YoY) · ${scopeParts.join(' · ')}`;
+    `1–${MTD_CUTOFF+1} Sep 2026 vs 1–${MTD_CUTOFF+1} Sep 2025 (YoY) · ${scopeParts.join(' · ')}`;
 
   const badge = document.getElementById('mtdBadge');
-  if(badge) badge.textContent = `MTD 1–${MTD_CUTOFF+1} Agustus 2026`;
+  if(badge) badge.textContent = `MTD 1–${MTD_CUTOFF+1} September 2026`;
   const footSrc = document.getElementById('mtdFootSource');
   if(footSrc) footSrc.textContent = `Data harian s.d. ${MTD_CUTOFF+1} Agustus 2026 · Update berkala mengikuti periode MTD`;
 }
