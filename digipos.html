@@ -1325,9 +1325,9 @@ function mtdKpiDefs(){
   const daysSoFar = MTD_CUTOFF+1;
   return [
     {key:'revenue', label:'Revenue', color:'#E4032B', cur:revCur*1000000, prior:revPrior*1000000, fmt:v=>fmtRp(v),
-     avgPerDay:(revCur*1000000)/daysSoFar, projection:(revCur*1000000)/daysSoFar*31, fullPriorYear:revFullAug25*1000000},
+     avgPerDay:(revCur*1000000)/daysSoFar, projection:(revCur*1000000)/daysSoFar*30, fullPriorYear:revFullAug25*1000000},
     {key:'trx', label:'Transactions', color:'#0B1B3A', cur:trxCur, prior:trxPrior, fmt:v=>fmtInt(v),
-     avgPerDay:trxCur/daysSoFar, projection:trxCur/daysSoFar*31, fullPriorYear:trxFullAug25}
+     avgPerDay:trxCur/daysSoFar, projection:trxCur/daysSoFar*30, fullPriorYear:trxFullAug25}
   ];
 }
 
@@ -1394,13 +1394,13 @@ function updateMtdTrendChart(){
   const labels = Array.from({length:31}, (_,i)=>String(i+1));
 
   const datasets = [
-    {type:'line', label:'Ags-25', data:series25, borderColor: color.prev, backgroundColor: color.prev, borderWidth:2, pointRadius:2, pointHoverRadius:4, pointBackgroundColor:'#fff', pointBorderColor:color.prev, pointBorderWidth:1.5, tension:0.3, spanGaps:false, fill:false},
-    {type:'line', label:'Ags-26', data:series26, borderColor: color.curr, backgroundColor: color.curr, borderWidth:2, pointRadius:2, pointHoverRadius:4, pointBackgroundColor:'#fff', pointBorderColor:color.curr, pointBorderWidth:1.5, tension:0.3, spanGaps:false, fill:false}
+    {type:'line', label:'Sep-25', data:series25, borderColor: color.prev, backgroundColor: color.prev, borderWidth:2, pointRadius:2, pointHoverRadius:4, pointBackgroundColor:'#fff', pointBorderColor:color.prev, pointBorderWidth:1.5, tension:0.3, spanGaps:false, fill:false},
+    {type:'line', label:'Sep-26', data:series26, borderColor: color.curr, backgroundColor: color.curr, borderWidth:2, pointRadius:2, pointHoverRadius:4, pointBackgroundColor:'#fff', pointBorderColor:color.curr, pointBorderWidth:1.5, tension:0.3, spanGaps:false, fill:false}
   ];
 
   document.getElementById('mtdTrendLegend').innerHTML = `
-    <span class="leg-item"><span class="leg-dot" style="background:${color.prev}"></span>Ags-25</span>
-    <span class="leg-item"><span class="leg-dot" style="background:${color.curr}"></span>Ags-26</span>
+    <span class="leg-item"><span class="leg-dot" style="background:${color.prev}"></span>Sep-25</span>
+    <span class="leg-item"><span class="leg-dot" style="background:${color.curr}"></span>Sep-26</span>
   `;
 
   if(mtdChartInstance){ mtdChartInstance.destroy(); }
@@ -1431,7 +1431,7 @@ function updateMtdTrendChart(){
   document.getElementById('mtdTrendScopeLabel').textContent = scopeParts.join(' · ');
 }
 
-/* Avg/hari Revenue & Trx (Ags-26 vs Ags-25, YoY) — selalu tampilkan kedua metrik
+/* Avg/hari Revenue & Trx (Sep-26 vs Sep-25, YoY) — selalu tampilkan kedua metrik
    berdampingan pada chart Daily Trend, terlepas dari tab metrik yang sedang aktif.
    Rentang hari yang dibandingkan sama (1..MTD_CUTOFF+1) di kedua tahun agar apple-to-apple. */
 function renderMtdTrendAvgStats(){
@@ -1454,12 +1454,12 @@ function renderMtdTrendAvgStats(){
     <div class="chart-avg-item">
       <div class="chart-avg-label">Avg/hari Revenue</div>
       <div class="chart-avg-row"><span class="chart-avg-value num">${fmtMnIdr(revCurAvg)}</span>${fmtYoyPill(revYoy)}</div>
-      <div class="chart-avg-prior">vs Ags-25: ${fmtMnIdr(revPriorAvg)}</div>
+      <div class="chart-avg-prior">vs Sep-25: ${fmtMnIdr(revPriorAvg)}</div>
     </div>
     <div class="chart-avg-item">
       <div class="chart-avg-label">Avg/hari Trx</div>
       <div class="chart-avg-row"><span class="chart-avg-value num">${fmtInt(trxCurAvg)}</span>${fmtYoyPill(trxYoy)}</div>
-      <div class="chart-avg-prior">vs Ags-25: ${fmtInt(trxPriorAvg)}</div>
+      <div class="chart-avg-prior">vs Sep-25: ${fmtInt(trxPriorAvg)}</div>
     </div>
   `;
 }
@@ -1556,7 +1556,7 @@ function renderMtdRegionBars(){
   data = sortData(data, mtdRegionSort);
   renderBarRows('mtdRegionBars', data, d => d.region);
   document.getElementById('mtdRegionSub').textContent =
-    `1–${MTD_CUTOFF+1} Ags 2026 vs 1–${MTD_CUTOFF+1} Ags 2025 (YoY) · ${data.length} region`;
+    `1–${MTD_CUTOFF+1} Sep 2026 vs 1–${MTD_CUTOFF+1} Sep 2025 (YoY) · ${data.length} region`;
 }
 wireFilterToggle('mtdRegionFilterToggle', 'mtdRegionFilterPanel');
 const mtdRegionSortSelect = document.getElementById('mtdRegionSortSelect');
@@ -1582,7 +1582,7 @@ function renderMtdBranchBars(){
   const top = all.slice(0, 10);
   renderBarRows('mtdBranchBars', top, d => d.branch, d => d.region);
   document.getElementById('mtdBranchSub').textContent =
-    `1–${MTD_CUTOFF+1} Ags 2026 vs 1–${MTD_CUTOFF+1} Ags 2025 (YoY)`;
+    `1–${MTD_CUTOFF+1} Sep 2026 vs 1–${MTD_CUTOFF+1} Sep 2025 (YoY)`;
   document.getElementById('mtdBranchFoot').textContent = `Top ${top.length} dari ${all.length} branch`;
   updateFilterBadge('mtdBranchFilterToggle', 'mtdBranchFilterCount', region!=='All' ? 1 : 0);
 }
@@ -1621,7 +1621,7 @@ function renderMtdClusterBars(){
   const top = all.slice(0, 10);
   renderBarRows('mtdClusterBars', top, d => d.cluster, d => `${d.branch} · ${d.region}`);
   document.getElementById('mtdClusterSub').textContent =
-    `1–${MTD_CUTOFF+1} Ags 2026 vs 1–${MTD_CUTOFF+1} Ags 2025 (YoY)`;
+    `1–${MTD_CUTOFF+1} Sep 2026 vs 1–${MTD_CUTOFF+1} Sep 2025 (YoY)`;
   document.getElementById('mtdClusterFoot').textContent = `Top ${top.length} dari ${all.length} cluster`;
   let activeCount = 0;
   if(region!=='All') activeCount++;
