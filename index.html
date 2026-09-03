@@ -299,8 +299,8 @@
     <div class="tlist">
       <div class="thead">
         <span class="tname">Metric</span>
-        <span class="tval">Aug-26</span>
-        <span class="tval">Aug-25</span>
+        <span class="tval">Sep-26</span>
+        <span class="tval">Sep-25</span>
         <span class="tyoy">YoY</span>
       </div>
       <div id="travelerRows"></div>
@@ -316,8 +316,8 @@
         <span class="chart-title">Revenue — Aug 25 vs Aug 26</span>
       </div>
       <div class="chart-legend" style="padding:0 4px 8px;">
-        <div class="leg-item"><span class="leg-dot" style="background:#B9C1D4;"></span>Aug-25</div>
-        <div class="leg-item"><span class="leg-dot" style="background:#E4002B;"></span>Aug-26</div>
+        <div class="leg-item"><span class="leg-dot" style="background:#B9C1D4;"></span>Sep-25</div>
+        <div class="leg-item"><span class="leg-dot" style="background:#E4002B;"></span>Sep-26</div>
       </div>
       <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
       <div class="chart-foot" id="dailyFoot"></div>
@@ -583,8 +583,8 @@ new Chart(document.getElementById('dailyChart'), {
   data:{
     labels:days,
     datasets:[
-      {label:'Aug-25', data:aug25, borderColor:'#B9C1D4', backgroundColor:'#B9C1D4', borderWidth:2, pointRadius:2, tension:0.35, borderDash:[4,3]},
-      {label:'Aug-26', data:aug26, borderColor:'#E4002B', backgroundColor:'#E4002B', borderWidth:2.5, pointRadius:2.5, tension:0.35}
+      {label:'Sep-25', data:aug25, borderColor:'#B9C1D4', backgroundColor:'#B9C1D4', borderWidth:2, pointRadius:2, tension:0.35, borderDash:[4,3]},
+      {label:'Sep-26', data:aug26, borderColor:'#E4002B', backgroundColor:'#E4002B', borderWidth:2.5, pointRadius:2.5, tension:0.35}
     ]
   },
   options:{
@@ -607,8 +607,8 @@ const avg25 = aug25.reduce((a,b)=>a+b,0)/aug25.length;
 const avg26 = aug26.reduce((a,b)=>a+b,0)/aug26.length;
 const dailyYoy = ((avg26-avg25)/avg25*100);
 document.getElementById('dailyFoot').innerHTML = `
-  <span>Avg Aug-25: <b>${avg25.toFixed(2)}</b></span>
-  <span>Avg Aug-26: <b>${avg26.toFixed(2)}</b></span>
+  <span>Avg Sep-25: <b>${avg25.toFixed(2)}</b></span>
+  <span>Avg Sep-26: <b>${avg26.toFixed(2)}</b></span>
   ${yoyBadge(dailyYoy)}
 `;
 
