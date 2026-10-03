@@ -1401,8 +1401,8 @@ function updateMtdTrendChart(){
   ];
 
   document.getElementById('mtdTrendLegend').innerHTML = `
-    <span class="leg-item"><span class="leg-dot" style="background:${color.prev}"></span>Sep-25</span>
-    <span class="leg-item"><span class="leg-dot" style="background:${color.curr}"></span>Sep-26</span>
+    <span class="leg-item"><span class="leg-dot" style="background:${color.prev}"></span>Oct-25</span>
+    <span class="leg-item"><span class="leg-dot" style="background:${color.curr}"></span>Oct-26</span>
   `;
 
   if(mtdChartInstance){ mtdChartInstance.destroy(); }
@@ -1433,7 +1433,7 @@ function updateMtdTrendChart(){
   document.getElementById('mtdTrendScopeLabel').textContent = scopeParts.join(' · ');
 }
 
-/* Avg/hari Revenue & Trx (Sep-26 vs Sep-25, YoY) — selalu tampilkan kedua metrik
+/* Avg/hari Revenue & Trx (Oct-26 vs Oct-25, YoY) — selalu tampilkan kedua metrik
    berdampingan pada chart Daily Trend, terlepas dari tab metrik yang sedang aktif.
    Rentang hari yang dibandingkan sama (1..MTD_CUTOFF+1) di kedua tahun agar apple-to-apple. */
 function renderMtdTrendAvgStats(){
@@ -1456,12 +1456,12 @@ function renderMtdTrendAvgStats(){
     <div class="chart-avg-item">
       <div class="chart-avg-label">Avg/hari Revenue</div>
       <div class="chart-avg-row"><span class="chart-avg-value num">${fmtMnIdr(revCurAvg)}</span>${fmtYoyPill(revYoy)}</div>
-      <div class="chart-avg-prior">vs Sep-25: ${fmtMnIdr(revPriorAvg)}</div>
+      <div class="chart-avg-prior">vs Oct-25: ${fmtMnIdr(revPriorAvg)}</div>
     </div>
     <div class="chart-avg-item">
       <div class="chart-avg-label">Avg/hari Trx</div>
       <div class="chart-avg-row"><span class="chart-avg-value num">${fmtInt(trxCurAvg)}</span>${fmtYoyPill(trxYoy)}</div>
-      <div class="chart-avg-prior">vs Sep-25: ${fmtInt(trxPriorAvg)}</div>
+      <div class="chart-avg-prior">vs Oct-25: ${fmtInt(trxPriorAvg)}</div>
     </div>
   `;
 }
