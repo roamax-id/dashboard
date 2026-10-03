@@ -439,7 +439,7 @@
 <div class="info-strip wrap">
   <div class="unit">Telkomsel · Roaming Product Marketing</div>
   <div class="badges">
-    <span class="mini-badge" id="mtdBadge">MTD September 2026</span>
+    <span class="mini-badge" id="mtdBadge">MTD October 2026</span>
   </div>
 </div>
 
@@ -1370,10 +1370,10 @@ function renderMtdKpis(){
   if(mtdFilter.branch!=='All') scopeParts.push(mtdFilter.branch);
   if(mtdFilter.cluster!=='All') scopeParts.push(mtdFilter.cluster);
   document.getElementById('mtdKpiSub').textContent =
-    `1–${MTD_CUTOFF+1} Sep 2026 vs 1–${MTD_CUTOFF+1} Sep 2025 (YoY) · ${scopeParts.join(' · ')}`;
+    `1–${MTD_CUTOFF+1} Oct 2026 vs 1–${MTD_CUTOFF+1} Oct 2025 (YoY) · ${scopeParts.join(' · ')}`;
 
   const badge = document.getElementById('mtdBadge');
-  if(badge) badge.textContent = `MTD 1–${MTD_CUTOFF+1} September 2026`;
+  if(badge) badge.textContent = `MTD 1–${MTD_CUTOFF+1} October 2026`;
   const footSrc = document.getElementById('mtdFootSource');
   if(footSrc) footSrc.textContent = `Data harian s.d. ${MTD_CUTOFF+1} Agustus 2026 · Update berkala mengikuti periode MTD`;
 }
@@ -1396,8 +1396,8 @@ function updateMtdTrendChart(){
   const labels = Array.from({length:31}, (_,i)=>String(i+1));
 
   const datasets = [
-    {type:'line', label:'Sep-25', data:series25, borderColor: color.prev, backgroundColor: color.prev, borderWidth:2, pointRadius:2, pointHoverRadius:4, pointBackgroundColor:'#fff', pointBorderColor:color.prev, pointBorderWidth:1.5, tension:0.3, spanGaps:false, fill:false},
-    {type:'line', label:'Sep-26', data:series26, borderColor: color.curr, backgroundColor: color.curr, borderWidth:2, pointRadius:2, pointHoverRadius:4, pointBackgroundColor:'#fff', pointBorderColor:color.curr, pointBorderWidth:1.5, tension:0.3, spanGaps:false, fill:false}
+    {type:'line', label:'Oct-25', data:series25, borderColor: color.prev, backgroundColor: color.prev, borderWidth:2, pointRadius:2, pointHoverRadius:4, pointBackgroundColor:'#fff', pointBorderColor:color.prev, pointBorderWidth:1.5, tension:0.3, spanGaps:false, fill:false},
+    {type:'line', label:'Oct-26', data:series26, borderColor: color.curr, backgroundColor: color.curr, borderWidth:2, pointRadius:2, pointHoverRadius:4, pointBackgroundColor:'#fff', pointBorderColor:color.curr, pointBorderWidth:1.5, tension:0.3, spanGaps:false, fill:false}
   ];
 
   document.getElementById('mtdTrendLegend').innerHTML = `
@@ -1558,7 +1558,7 @@ function renderMtdRegionBars(){
   data = sortData(data, mtdRegionSort);
   renderBarRows('mtdRegionBars', data, d => d.region);
   document.getElementById('mtdRegionSub').textContent =
-    `1–${MTD_CUTOFF+1} Sep 2026 vs 1–${MTD_CUTOFF+1} Sep 2025 (YoY) · ${data.length} region`;
+    `1–${MTD_CUTOFF+1} Oct 2026 vs 1–${MTD_CUTOFF+1} Oct 2025 (YoY) · ${data.length} region`;
 }
 wireFilterToggle('mtdRegionFilterToggle', 'mtdRegionFilterPanel');
 const mtdRegionSortSelect = document.getElementById('mtdRegionSortSelect');
@@ -1584,7 +1584,7 @@ function renderMtdBranchBars(){
   const top = all.slice(0, 10);
   renderBarRows('mtdBranchBars', top, d => d.branch, d => d.region);
   document.getElementById('mtdBranchSub').textContent =
-    `1–${MTD_CUTOFF+1} Sep 2026 vs 1–${MTD_CUTOFF+1} Sep 2025 (YoY)`;
+    `1–${MTD_CUTOFF+1} Oct 2026 vs 1–${MTD_CUTOFF+1} Oct 2025 (YoY)`;
   document.getElementById('mtdBranchFoot').textContent = `Top ${top.length} dari ${all.length} branch`;
   updateFilterBadge('mtdBranchFilterToggle', 'mtdBranchFilterCount', region!=='All' ? 1 : 0);
 }
@@ -1623,7 +1623,7 @@ function renderMtdClusterBars(){
   const top = all.slice(0, 10);
   renderBarRows('mtdClusterBars', top, d => d.cluster, d => `${d.branch} · ${d.region}`);
   document.getElementById('mtdClusterSub').textContent =
-    `1–${MTD_CUTOFF+1} Sep 2026 vs 1–${MTD_CUTOFF+1} Sep 2025 (YoY)`;
+    `1–${MTD_CUTOFF+1} Oct 2026 vs 1–${MTD_CUTOFF+1} Oct 2025 (YoY)`;
   document.getElementById('mtdClusterFoot').textContent = `Top ${top.length} dari ${all.length} cluster`;
   let activeCount = 0;
   if(region!=='All') activeCount++;
