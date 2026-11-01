@@ -1968,10 +1968,10 @@ function mtdFilterRows(){
 
 function mtdDailySeries(colIdx){
   const rows = mtdFilterRows();
-  const days = new Array(30).fill(0);
+  const days = new Array(31).fill(0);
   rows.forEach(r => {
     const arr = r[colIdx];
-    for(let d=0; d<30; d++) days[d] += arr[d];
+    for(let d=0; d<31; d++) days[d] += arr[d];
   });
   return days;
 }
