@@ -833,7 +833,7 @@
 <div class="info-strip wrap">
   <div class="unit">Telkomsel · Roaming Product Marketing</div>
   <div class="badges">
-    <span class="mini-badge" id="mtdBadge">MTD 1–16 October 2026</span>
+    <span class="mini-badge" id="mtdBadge">MTD 1–16 November 2026</span>
   </div>
 </div>
 
@@ -850,7 +850,7 @@
   <div class="sec-head-row">
     <div class="sec-head-text">
       <div class="sec-title">Score Card</div>
-      <div class="sec-sub" id="mtdKpiSub">1–16 Oct 2026 vs 1–16 Oct 2025 (YoY) · Semua Region</div>
+      <div class="sec-sub" id="mtdKpiSub">1–16 Nov 2026 vs 1–16 Nov 2025 (YoY) · Semua Region</div>
     </div>
   </div>
   <div class="kpi-list" id="mtdKpiCarousel">
@@ -947,7 +947,7 @@
   <div class="sec-head-row">
     <div class="sec-head-text">
       <div class="sec-title">Performance by Region</div>
-      <div class="sec-sub" id="mtdRegionSub">1–16 Oct 2026 vs 1–16 Oct 2025 (YoY) · 12 region</div>
+      <div class="sec-sub" id="mtdRegionSub">1–16 Nov 2026 vs 1–16 Nov 2025 (YoY) · 12 region</div>
     </div>
     <button class="filter-toggle" id="mtdRegionFilterToggle" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="10" y1="18" x2="14" y2="18"></line></svg>
@@ -1080,7 +1080,7 @@
   <div class="sec-head-row">
     <div class="sec-head-text">
       <div class="sec-title">Performance by Branch</div>
-      <div class="sec-sub" id="mtdBranchSub">1–16 Oct 2026 vs 1–16 Oct 2025 (YoY)</div>
+      <div class="sec-sub" id="mtdBranchSub">1–16 Nov 2026 vs 1–16 Nov 2025 (YoY)</div>
     </div>
     <button class="filter-toggle" id="mtdBranchFilterToggle" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="10" y1="18" x2="14" y2="18"></line></svg>
@@ -1199,7 +1199,7 @@
   <div class="sec-head-row">
     <div class="sec-head-text">
       <div class="sec-title">Performance by Cluster</div>
-      <div class="sec-sub" id="mtdClusterSub">1–16 Oct 2026 vs 1–16 Oct 2025 (YoY)</div>
+      <div class="sec-sub" id="mtdClusterSub">1–16 Nov 2026 vs 1–16 Nov 2025 (YoY)</div>
     </div>
     <button class="filter-toggle active" id="mtdClusterFilterToggle" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="10" y1="18" x2="14" y2="18"></line></svg>
@@ -2046,10 +2046,10 @@ function renderMtdKpis(){
   if(mtdFilter.branch!=='All') scopeParts.push(mtdFilter.branch);
   if(mtdFilter.cluster!=='All') scopeParts.push(mtdFilter.cluster);
   document.getElementById('mtdKpiSub').textContent =
-    `1–${MTD_CUTOFF+1} Oct 2026 vs 1–${MTD_CUTOFF+1} Oct 2025 (YoY) · ${scopeParts.join(' · ')}`;
+    `1–${MTD_CUTOFF+1} Nov 2026 vs 1–${MTD_CUTOFF+1} Nov 2025 (YoY) · ${scopeParts.join(' · ')}`;
 
   const badge = document.getElementById('mtdBadge');
-  if(badge) badge.textContent = `MTD 1–${MTD_CUTOFF+1} October 2026`;
+  if(badge) badge.textContent = `MTD 1–${MTD_CUTOFF+1} November 2026`;
   const footSrc = document.getElementById('mtdFootSource');
   if(footSrc) footSrc.textContent = `Data harian s.d. ${MTD_CUTOFF+1} Agustus 2026 · Update berkala mengikuti periode MTD`;
 }
@@ -2234,7 +2234,7 @@ function renderMtdRegionBars(){
   data = sortData(data, mtdRegionSort);
   renderBarRows('mtdRegionBars', data, d => d.region);
   document.getElementById('mtdRegionSub').textContent =
-    `1–${MTD_CUTOFF+1} Oct 2026 vs 1–${MTD_CUTOFF+1} Oct 2025 (YoY) · ${data.length} region`;
+    `1–${MTD_CUTOFF+1} Nov 2026 vs 1–${MTD_CUTOFF+1} Nov 2025 (YoY) · ${data.length} region`;
 }
 wireFilterToggle('mtdRegionFilterToggle', 'mtdRegionFilterPanel');
 const mtdRegionSortSelect = document.getElementById('mtdRegionSortSelect');
@@ -2260,7 +2260,7 @@ function renderMtdBranchBars(){
   const top = all.slice(0, 10);
   renderBarRows('mtdBranchBars', top, d => d.branch, d => d.region);
   document.getElementById('mtdBranchSub').textContent =
-    `1–${MTD_CUTOFF+1} Oct 2026 vs 1–${MTD_CUTOFF+1} Oct 2025 (YoY)`;
+    `1–${MTD_CUTOFF+1} Nov 2026 vs 1–${MTD_CUTOFF+1} Nov 2025 (YoY)`;
   document.getElementById('mtdBranchFoot').textContent = `Top ${top.length} dari ${all.length} branch`;
   updateFilterBadge('mtdBranchFilterToggle', 'mtdBranchFilterCount', region!=='All' ? 1 : 0);
 }
@@ -2299,7 +2299,7 @@ function renderMtdClusterBars(){
   const top = all.slice(0, 10);
   renderBarRows('mtdClusterBars', top, d => d.cluster, d => `${d.branch} · ${d.region}`);
   document.getElementById('mtdClusterSub').textContent =
-    `1–${MTD_CUTOFF+1} Oct 2026 vs 1–${MTD_CUTOFF+1} Oct 2025 (YoY)`;
+    `1–${MTD_CUTOFF+1} Nov 2026 vs 1–${MTD_CUTOFF+1} Nov 2025 (YoY)`;
   document.getElementById('mtdClusterFoot').textContent = `Top ${top.length} dari ${all.length} cluster`;
   let activeCount = 0;
   if(region!=='All') activeCount++;
