@@ -256,19 +256,58 @@
   </div>
 </div>
 
+<script src="roaming_business_data.js"></script>
 <script>
 // ======================================================
-// DATA — replace this object to refresh the dashboard.
-// Source: Roaming_Business_Performance_2025-2026.xlsx
+// DATA — dibaca dari file terpisah: roaming_business_data.js
+// Berisi DATA_TARGET dan DATA_ACTUAL (tabel tab-separated: period, retail, inbound, tap_in_cost)
+// Update data cukup dengan menambah baris di file tersebut.
 // ======================================================
-const RAW = {"months":["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09","2026-10","2026-11","2026-12"],"curIdx":21,"selStart":12,"monthLabels12":["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],"target":{"retail":[95.995,92.05,91.078,103.06,109.782,159.368,117.582,100.544,102.299,114.632,127.054,131.587,131.107,112.538,110.547,119.578,116.374,150.769,128.057,114.46,121.557,134.893,138.467,161.842],"tapOut":[24,24,24,24,24,24,24,24,24,24,24,24,26.706,26.706,26.706,26.706,26.706,26.706,26.706,26.706,26.706,26.706,26.706,26.706],"tapInCost":[30.684,29.559,29.273,33.18,35.411,51.062,37.774,32.035,32.587,36.076,39.984,41.375,54.803,47.041,46.209,49.984,48.644,63.021,53.528,47.844,50.811,56.385,57.879,67.65],"netRoaming":[89.311,86.491,85.806,93.88,98.372,132.306,103.808,92.509,93.712,102.556,111.07,114.212,103.01,92.203,91.044,96.3,94.435,114.453,101.235,93.321,97.452,105.213,107.293,120.898]},"actual":{"retail":[115.078,98.337,96.217,103.775,100.376,130.159,109.152,101.525,96.822,104.93,108.862,123.639,127.577,89.1,110.729,89.063,110.395,127.496,110.73,89,90.76,105.0,null,null],"tapOut":[22.713,29.05,25.405,23.551,34.22,32.477,28.427,32.915,35.49,30.469,35.701,25.081,27.093,27.437,27.261,28.329,39.479,31.839,35.018,36,39.5,26.1,null,null],"tapInCost":[57.89,34.442,41.738,38.212,50.846,79.241,48.53,45.45,46.46,45.509,59.92,48.18,62.631,48.205,58.271,55.06,73.48,62.701,55.077,46,51.1,47.7,null,null],"netRoaming":[79.901,92.945,79.884,89.114,83.75,83.396,89.048,88.99,85.853,89.89,84.643,100.54,92.039,68.332,79.72,62.333,76.394,96.634,90.67,79.0,79.1,83.4,null,null]}};
+const MLBL = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"];
 
-const MONTHS = RAW.months;                 // 24 iso months, Jan25..Des26
-const MLBL = RAW.monthLabels12;            // 12 short labels, Jan..Des
-const CUR_IDX = RAW.curIdx;                // index of latest actual month (Jul 2026 = 18)
-const SEL_START = RAW.selStart;            // Jan 2026 index = 12
-const T = RAW.target;                      // {retail, tapOut, tapInCost, netRoaming} x24 (full year target)
-const A = RAW.actual;                      // {retail, tapOut, tapInCost, netRoaming} x24 (nulled out after CUR_IDX)
+// Tabel tab-separated (header + baris) -> [[YYYYMM, retail, inbound, tapInCost], ...]
+function parseTable(text){
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l && !l.startsWith('#'));
+  const head = lines.shift().split('\t').map(h => h.trim().toLowerCase());
+  const ix = {p: head.indexOf('period'), r: head.indexOf('retail'), i: head.indexOf('inbound'), c: head.indexOf('tap_in_cost')};
+  const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isFinite(n) ? n : null; };
+  return lines.map(l => {
+    const c = l.split('\t');
+    const d = c[ix.p].trim();                       // YYYY-MM (atau YYYY-MM-DD)
+    return [parseInt(d.slice(0,4),10)*100 + parseInt(d.slice(5,7),10), num(c[ix.r]), num(c[ix.i]), num(c[ix.c])];
+  });
+}
+const RB_TARGET = parseTable(DATA_TARGET);
+const RB_ACTUAL = parseTable(DATA_ACTUAL);
+
+// Periode terbaru = baris terakhir di DATA_ACTUAL; tampilan = 24 bulan (tahun lalu + tahun berjalan)
+const LAST_PERIOD = Math.max(...RB_ACTUAL.map(r => r[0]));
+const LAST_YEAR = Math.floor(LAST_PERIOD / 100);
+const MONTHS = [];                                   // 24 iso months, Jan tahun lalu .. Des tahun berjalan
+for(let y = LAST_YEAR - 1; y <= LAST_YEAR; y++){
+  for(let m = 1; m <= 12; m++) MONTHS.push(y + '-' + String(m).padStart(2, '0'));
+}
+const SEL_START = 12;                                // index Jan tahun berjalan
+const CUR_IDX = MONTHS.indexOf(Math.floor(LAST_PERIOD/100) + '-' + String(LAST_PERIOD % 100).padStart(2, '0'));
+
+// rows -> {retail, tapOut, tapInCost, netRoaming} x24, null jika belum ada data
+function buildSeries(rows){
+  const out = {retail:[], tapOut:[], tapInCost:[], netRoaming:[]};
+  const byPeriod = {};
+  rows.forEach(r => { byPeriod[r[0]] = r; });
+  MONTHS.forEach(iso => {
+    const r = byPeriod[parseInt(iso.replace('-', ''), 10)];
+    if(!r || r[1]==null || r[2]==null || r[3]==null){
+      out.retail.push(null); out.tapOut.push(null); out.tapInCost.push(null); out.netRoaming.push(null);
+    } else {
+      out.retail.push(r[1]); out.tapOut.push(r[2]); out.tapInCost.push(r[3]);
+      out.netRoaming.push(+(r[1] + r[2] - r[3]).toFixed(6));   // Net Roaming = Retail + Inbound - Tap In Cost
+    }
+  });
+  return out;
+}
+const T = buildSeries(RB_TARGET);   // target
+const A = buildSeries(RB_ACTUAL);   // actual
 
 const ID_MONTH_FULL = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 function fullMonthName(iso){
