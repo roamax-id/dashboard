@@ -51,26 +51,26 @@ date	rev_total	rev_pack	rev_payu
 
 const DATA_MTD = `
 date	rev_halo_pack	rev_halo_payu	rev_simpati_pack	rev_simpati_payu	user_total	user_pack	user_payu	arpu_total	arpu_pack	arpu_payu	ticket_total	ticket_halo	ticket_simpati	traveler	active_roamer	active_package
-2025-11-02	1.61	0.63	4.34	0.52	54.10	27.92	30.11	131.09	212.83	38.17	204.38	217.41	199.94	62.02	27.08	21.45
-2026-11-02	1.66	0.44	4.96	0.34	44.68	29.14	18.81	165.46	227.09	41.18	219.94	225.65	218.10	57.41	29.19	22.06
+2025-11-03	2.47	0.97	6.66	0.78	79.33	42.49	43.90	137.15	214.77	39.96	204.85	214.72	201.42	99.56	42.55	35.16
+2026-11-03	2.45	0.67	7.39	0.52	65.02	43.05	27.75	169.65	228.60	42.85	219.64	224.57	218.05	89.54	44.45	34.27
 `;
 
 const DATA_MTD_REV = `
 date	dimensi	nama	rev
-2025-11-02	Channel	MyTelkomsel	4.05
-2025-11-02	Channel	DigiPOS	0.92
-2025-11-02	Channel	Others	0.97
-2025-11-02	Country	Saudi Arabia	1.98
-2025-11-02	Country	Malaysia	1.00
-2025-11-02	Country	China	0.69
-2025-11-02	Country	Singapore	0.67
-2025-11-02	Country	Japan	0.43
-2026-11-02	Channel	MyTelkomsel	4.76
-2026-11-02	Channel	DigiPOS	0.95
-2026-11-02	Channel	Others	0.91
-2026-11-02	Country	Saudi Arabia	2.14
-2026-11-02	Country	Malaysia	0.94
-2026-11-02	Country	China	0.90
-2026-11-02	Country	Singapore	0.57
-2026-11-02	Country	Japan	0.46
+2025-11-03	Channel	MyTelkomsel	6.23
+2025-11-03	Channel	DigiPOS	1.42
+2025-11-03	Channel	Others	1.49
+2025-11-03	Country	Saudi Arabia	3.08
+2025-11-03	Country	Malaysia	1.52
+2025-11-03	Country	China	1.07
+2025-11-03	Country	Singapore	1.04
+2025-11-03	Country	Japan	0.68
+2026-11-03	Channel	MyTelkomsel	7.05
+2026-11-03	Channel	DigiPOS	1.45
+2026-11-03	Channel	Others	1.34
+2026-11-03	Country	Saudi Arabia	3.23
+2026-11-03	Country	Malaysia	1.44
+2026-11-03	Country	China	1.31
+2026-11-03	Country	Singapore	0.89
+2026-11-03	Country	Japan	0.68
 `;
