@@ -122,6 +122,8 @@
   .kpi-break-label{font-size:11px; color:var(--ink-soft); font-weight:600; margin-bottom:3px;}
   .kpi-break-row{display:flex; align-items:baseline; gap:6px;}
   .kpi-break-value{font-size:14.5px; font-weight:700; font-variant-numeric:tabular-nums;}
+  .kpi-breakdown-3 .kpi-break-item + .kpi-break-item{padding-left:10px; margin-left:10px;}
+  .kpi-breakdown-3 .kpi-break-row{flex-wrap:wrap; gap:2px 6px;}
 
   /* Traveler list */
   .tlist{background:var(--card); border-radius:var(--radius); box-shadow:0 1px 3px rgba(11,31,68,0.06); overflow:hidden;}
@@ -243,7 +245,7 @@
     #kpiCards .kpi-card{margin-bottom:0;}
     #histKpiCards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
     #histKpiCards .kpi-card{margin-bottom:0;}
-    #brandCards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+    #brandCards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;}
     #brandCards .rc-card{margin-bottom:0;}
     #histBrandCards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
     #histBrandCards .rc-card{margin-bottom:0;}
@@ -271,8 +273,8 @@
     </div>
     <div class="subtitle" id="subtitleText">Retail &amp; Traveler · vs Nov 2025 (YoY)</div>
     <!-- TODO: sesuaikan href di bawah dengan path routing DigiPOS dashboard Anda -->
-    <a class="cross-nav-link" href="digipos_mtd.html">DigiPOS Dashboard →</a>
-    <a class="cross-nav-link" href="roambiz.html">Roaming Business →</a>
+    <a class="cross-nav-link" href="https://dashboard.roamax-id.workers.dev/digipos_mtd.html">DigiPOS Dashboard →</a>
+    <a class="cross-nav-link" href="https://dashboard.roamax-id.workers.dev/roambiz.html">Roaming Business →</a>
   </header>
 
   <div class="page-switch" id="pageSwitch">
@@ -1069,8 +1071,10 @@ function kpiRow(r){
   if (!r) return {};
   return {
     revHalo: add(r.rev_halo_pack, r.rev_halo_payu), revSimpati: add(r.rev_simpati_pack, r.rev_simpati_payu),
-    revPack: add(r.rev_halo_pack, r.rev_simpati_pack), revPayu: add(r.rev_halo_payu, r.rev_simpati_payu),
-    revTotal: add(add(r.rev_halo_pack, r.rev_halo_payu), add(r.rev_simpati_pack, r.rev_simpati_payu)),
+    revByu: add(r.rev_byu_pack, r.rev_byu_payu),
+    revPack: add(add(r.rev_halo_pack, r.rev_simpati_pack), r.rev_byu_pack),
+    revPayu: add(add(r.rev_halo_payu, r.rev_simpati_payu), r.rev_byu_payu),
+    revTotal: add(add(add(r.rev_halo_pack, r.rev_halo_payu), add(r.rev_simpati_pack, r.rev_simpati_payu)), add(r.rev_byu_pack, r.rev_byu_payu)),
     activeRate: div(r.active_roamer, r.traveler), packageRate: div(r.active_package, r.active_roamer)
   };
 }
@@ -1104,6 +1108,8 @@ function buildHist(){
     },
     channel: {}, country: {}
   };
+  if (rows.some(r => r.rev_byu_pack != null || r.rev_byu_payu != null))
+    H.brand['byU'] = {total:der('revByu'), pack:col('rev_byu_pack'), payu:col('rev_byu_payu')};
   uniqueBy(parseTable(DATA_MONTHLY_REV, 'DATA_MONTHLY_REV'), r => r.period+'|'+r.dimensi+'|'+r.nama, 'DATA_MONTHLY_REV').forEach(r => {
     const obj = r.dimensi === 'Channel' ? H.channel : r.dimensi === 'Country' ? H.country : null;
     if (!obj) return rawWarn('DATA_MONTHLY_REV dimensi tidak dikenal: ' + r.dimensi);
@@ -1127,13 +1133,19 @@ function buildMtd(){
   const f1 = v => v == null ? '–' : v.toFixed(1);
   const fT = v => v == null ? '–' : String(+v.toFixed(1));
   const K = (k) => ({value:f1(C[k]), yoy:yoy(C[k], P[k])});
-  const kpi = (label, unit, t, s1lbl, s1, s2lbl, s2) =>
-    Object.assign({label, unit}, K(t), {sub1:Object.assign({label:s1lbl}, K(s1)), sub2:Object.assign({label:s2lbl}, K(s2))});
+  const kpi = (label, unit, t, ...subs) => {
+    const list = [];
+    for (let i = 0; i < subs.length; i += 2) {
+      if (C[subs[i+1]] == null && P[subs[i+1]] == null) continue;   // kolom belum diisi -> tidak ditampilkan
+      list.push(Object.assign({label:subs[i]}, K(subs[i+1])));
+    }
+    return Object.assign({label, unit}, K(t), {subs:list, sub1:list[0], sub2:list[1]});
+  };
   const kpis = [
     kpi('Revenue','Bn IDR','revTotal','Pack','revPack','PAYU','revPayu'),
     kpi('Roaming User','k','user_total','Pack','user_pack','PAYU','user_payu'),
     kpi('ARPU Roaming','k IDR','arpu_total','Pack','arpu_pack','PAYU','arpu_payu'),
-    kpi('Pack Ticket Size','k IDR','ticket_total','Halo','ticket_halo','SIMPATI','ticket_simpati')
+    kpi('Pack Ticket Size','k IDR','ticket_total','Halo','ticket_halo','SIMPATI','ticket_simpati','byU','ticket_byU')
   ];
   const tCount = (label, k) => ({label, aug26:fT(C[k]), aug25:fT(P[k]), yoy:yoy(C[k], P[k]), isPoint:false});
   const tRate = (label, k) => {
@@ -1144,6 +1156,7 @@ function buildMtd(){
     tRate('Active Rate (%)','activeRate'), tCount('Active Package (k)','active_package'), tRate('Package Rate (%)','packageRate')];
   const brand = (name, t, pk, py) => ({name, total:f1(C[t]), totalYoy:yoy(C[t],P[t]), pack:f1(C[pk]), packYoy:yoy(C[pk],P[pk]), payu:f1(C[py]), payuYoy:yoy(C[py],P[py])});
   const brands = [brand('Halo','revHalo','rev_halo_pack','rev_halo_payu'), brand('SIMPATI','revSimpati','rev_simpati_pack','rev_simpati_payu')];
+  if (C.revByu != null || P.revByu != null) brands.push(brand('byU','revByu','rev_byu_pack','rev_byu_payu'));
 
   const revRows = uniqueBy(parseTable(DATA_MTD_REV, 'DATA_MTD_REV'), r => r.date+'|'+r.dimensi+'|'+r.nama, 'DATA_MTD_REV');
   function contrib(dim, denom, topN){
@@ -1180,6 +1193,7 @@ const DATA = buildMtd();
 
 // ---------- helpers ----------
 function yoyBadge(val, suffix){
+  if (val == null || val === '' || isNaN(Number(val))) return '';
   suffix = suffix || '%';
   const v = Number(val);
   const cls = v >= 0 ? 'pos' : 'neg';
@@ -1212,15 +1226,12 @@ document.getElementById('kpiCards').innerHTML = DATA.kpis.map(k => `
       ${yoyBadge(k.yoy)}
     </div>
     <div class="stub-divider"></div>
-    <div class="kpi-breakdown">
+    <div class="kpi-breakdown${(k.subs||[]).length > 2 ? ' kpi-breakdown-3' : ''}">
+      ${(k.subs || [k.sub1, k.sub2]).map(s => `
       <div class="kpi-break-item">
-        <div class="kpi-break-label">${k.sub1.label}</div>
-        <div class="kpi-break-row"><span class="kpi-break-value">${k.sub1.value}</span>${yoyBadge(k.sub1.yoy)}</div>
-      </div>
-      <div class="kpi-break-item">
-        <div class="kpi-break-label">${k.sub2.label}</div>
-        <div class="kpi-break-row"><span class="kpi-break-value">${k.sub2.value}</span>${yoyBadge(k.sub2.yoy)}</div>
-      </div>
+        <div class="kpi-break-label">${s.label}</div>
+        <div class="kpi-break-row"><span class="kpi-break-value">${s.value}</span>${yoyBadge(s.yoy)}</div>
+      </div>`).join('')}
     </div>
   </div>
 `).join('');
