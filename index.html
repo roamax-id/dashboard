@@ -247,7 +247,7 @@
     #histKpiCards .kpi-card{margin-bottom:0;}
     #brandCards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;}
     #brandCards .rc-card{margin-bottom:0;}
-    #histBrandCards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+    #histBrandCards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;}
     #histBrandCards .rc-card{margin-bottom:0;}
     .chart-wrap{height:320px;}
     .chart-card{padding:20px 22px 14px;}
@@ -1002,6 +1002,7 @@
         <option value="total">Total</option>
         <option value="Halo">Halo</option>
         <option value="SIMPATI">SIMPATI</option>
+        <option value="byU">byU</option>
       </select>
     </div>
     <div class="chart-card">
@@ -1098,7 +1099,8 @@ function buildHist(){
       revenue:     {total:der('revTotal'), pack:der('revPack'), payu:der('revPayu')},
       roamingUser: {total:col('user_total'), pack:col('user_pack'), payu:col('user_payu')},
       arpu:        {total:col('arpu_total'), pack:col('arpu_pack'), payu:col('arpu_payu')},
-      packTicket:  {total:col('ticket_total'), halo:col('ticket_halo'), simpati:col('ticket_simpati')}
+      packTicket:  {total:col('ticket_total'), halo:col('ticket_halo'), simpati:col('ticket_simpati'),
+                    byu: rows.some(r => r.ticket_byU != null) ? col('ticket_byU') : null}
     },
     traveler: {totalTraveler:col('traveler'), activeRoamers:col('active_roamer'), activeRate:der('activeRate'),
                activePackage:col('active_package'), packageRate:der('packageRate')},
@@ -1433,7 +1435,8 @@ function renderHistScoreCard(idx){
     {label:'Pack Ticket Size', unit:'k IDR', fmt:fmt0, ytdMode:'avg', ytdUnit:'k IDR',
       m: metricSummary(sc.packTicket.total, idx, 'avg'),
       sub1:{label:'Halo', m: metricSummary(sc.packTicket.halo, idx, 'avg')},
-      sub2:{label:'SIMPATI', m: metricSummary(sc.packTicket.simpati, idx, 'avg')}}
+      sub2:{label:'SIMPATI', m: metricSummary(sc.packTicket.simpati, idx, 'avg')},
+      sub3: sc.packTicket.byu ? {label:'byU', m: metricSummary(sc.packTicket.byu, idx, 'avg')} : null}
   ];
 
   document.getElementById('histKpiCards').innerHTML = kpiDefs.map(k => `
@@ -1446,15 +1449,12 @@ function renderHistScoreCard(idx){
         ${yoyBadge(k.m.yoy)}
       </div>
       <div class="stub-divider"></div>
-      <div class="kpi-breakdown">
+      <div class="kpi-breakdown${k.sub3 ? ' kpi-breakdown-3' : ''}">
+        ${[k.sub1, k.sub2, k.sub3].filter(Boolean).map(s => `
         <div class="kpi-break-item">
-          <div class="kpi-break-label">${k.sub1.label}</div>
-          <div class="kpi-break-row"><span class="kpi-break-value">${k.fmt(k.sub1.m.cur)}</span>${yoyBadge(k.sub1.m.yoy)}</div>
-        </div>
-        <div class="kpi-break-item">
-          <div class="kpi-break-label">${k.sub2.label}</div>
-          <div class="kpi-break-row"><span class="kpi-break-value">${k.fmt(k.sub2.m.cur)}</span>${yoyBadge(k.sub2.m.yoy)}</div>
-        </div>
+          <div class="kpi-break-label">${s.label}</div>
+          <div class="kpi-break-row"><span class="kpi-break-value">${k.fmt(s.m.cur)}</span>${yoyBadge(s.m.yoy)}</div>
+        </div>`).join('')}
       </div>
       <div class="kpi-extra">
         <div class="kpi-extra-item">
@@ -1815,7 +1815,8 @@ initMiniTrendChart({
   seriesMap:{
     total:{label:'Total', arr:HIST.scorecard.packTicket.total, isRate:false},
     Halo:{label:'Halo', arr:HIST.scorecard.packTicket.halo, isRate:false},
-    SIMPATI:{label:'SIMPATI', arr:HIST.scorecard.packTicket.simpati, isRate:false}
+    SIMPATI:{label:'SIMPATI', arr:HIST.scorecard.packTicket.simpati, isRate:false},
+    byU:{label:'byU', arr:HIST.scorecard.packTicket.byu || HIST.scorecard.packTicket.total.map(() => null), isRate:false}
   }
 });
 
