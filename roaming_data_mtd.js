@@ -53,30 +53,31 @@ date	rev_total	rev_pack	rev_payu
 2026-11-03	3.68	3.26	0.42
 2026-11-04	3.58	3.18	0.40
 2026-11-05	3.70	3.27	0.43
+2026-11-06	3.54	3.09	0.45
 `;
 
 const DATA_MTD = `
 date	rev_halo_pack	rev_halo_payu	rev_simpati_pack	rev_simpati_payu	rev_byu_pack	rev_byu_payu	user_total	user_pack	user_payu	arpu_total	arpu_pack	arpu_payu	ticket_total	ticket_halo	ticket_simpati	ticket_byU	traveler	active_roamer	active_package
-2025-11-05	4.09	1.63	11.30	1.31	0.20	0.00	127.27	71.61	70.29	144.10	214.98	41.91	204.83	211.00	202.31	230.06	164.30	70.84	59.88
-2026-11-05	3.99	1.15	12.20	0.87	0.25	0.00	104.11	71.08	44.40	174.88	227.79	45.42	218.06	220.36	217.41	213.78	129.53	67.90	53.73
+2025-11-06	4.96	1.96	13.64	1.59	0.24	0.01	149.68	86.05	82.47	147.98	216.18	43.03	204.68	209.86	202.49	229.53	196.33	86.17	73.22
+2026-11-06	4.75	1.40	14.49	1.06	0.29	0.00	123.41	84.30	53.64	175.85	228.17	45.97	216.65	218.08	216.26	213.31	164.50	87.11	69.27
 `;
 
 const DATA_MTD_REV = `
 date	dimensi	nama	rev
-2025-11-05	Channel	MyTelkomsel	10.48
-2025-11-05	Channel	DigiPOS	2.46
-2025-11-05	Channel	Others	2.45
-2025-11-05	Country	Saudi Arabia	5.41
-2025-11-05	Country	Malaysia	2.56
-2025-11-05	Country	China	1.73
-2025-11-05	Country	Singapore	1.69
-2025-11-05	Country	Japan	1.15
-2026-11-05	Channel	MyTelkomsel	11.55
-2026-11-05	Channel	DigiPOS	2.45
-2026-11-05	Channel	Others	2.19
-2026-11-05	Country	Saudi Arabia	5.50
-2026-11-05	Country	Malaysia	2.38
-2026-11-05	Country	China	2.13
-2026-11-05	Country	Singapore	1.43
-2026-11-05	Country	Japan	1.09
+2025-11-06	Channel	MyTelkomsel	12.76
+2025-11-06	Channel	DigiPOS	2.91
+2025-11-06	Channel	Others	2.93
+2025-11-06	Country	Saudi Arabia	6.60
+2025-11-06	Country	Malaysia	3.07
+2025-11-06	Country	China	2.09
+2025-11-06	Country	Singapore	2.03
+2025-11-06	Country	Japan	1.38
+2026-11-06	Channel	MyTelkomsel	13.77
+2026-11-06	Channel	DigiPOS	2.84
+2026-11-06	Channel	Others	2.62
+2026-11-06	Country	Saudi Arabia	6.53
+2026-11-06	Country	Malaysia	2.87
+2026-11-06	Country	China	2.51
+2026-11-06	Country	Singapore	1.78
+2026-11-06	Country	Japan	1.29
 `;
