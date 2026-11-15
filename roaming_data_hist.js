@@ -213,7 +213,7 @@ period	dimensi	nama	rev
 2026-10	Channel	Others	12.87
 2026-10	Country	Saudi Arabia	29.933
 2026-10	Country	Malaysia	13.983
-2026-10	Country	Singapore	12.761
-2026-10	Country	China	9.096
+2026-10	Country	Singapore	9.096
+2026-10	Country	China	12.761
 2026-10	Country	Japan	6.708
 `;
