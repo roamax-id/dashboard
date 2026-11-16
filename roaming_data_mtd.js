@@ -62,30 +62,31 @@ date	rev_total	rev_pack	rev_payu
 2026-11-12	3.70	3.29	0.41
 2026-11-13	3.29	2.84	0.44
 2026-11-14	3.60	3.19	0.41
+2026-11-15	3.56	3.16	0.40
 `;
 
 const DATA_MTD = `
 date	rev_halo_pack	rev_halo_payu	rev_simpati_pack	rev_simpati_payu	rev_byu_pack	rev_byu_payu	user_total	user_pack	user_payu	arpu_total	arpu_pack	arpu_payu	ticket_total	ticket_halo	ticket_simpati	ticket_byU	traveler	active_roamer	active_package
-2025-11-14	11.26	4.64	31.82	3.77	0.53	0.01	311.80	192.21	176.13	165.13	224.13	47.73	202.63	204.63	201.58	226.40	435.50	194.96	165.10
-2026-11-14	11.14	3.29	33.45	2.44	0.74	0.01	253.71	185.94	110.18	198.36	239.82	52.02	215.44	218.02	215.64	176.56	375.73	198.05	158.26
+2025-11-15	12.01	4.97	34.21	4.03	0.57	0.01	330.78	205.03	187.24	166.94	225.41	48.08	202.88	205.18	201.74	226.36	463.10	207.69	175.59
+2026-11-15	12.00	3.52	35.70	2.61	0.79	0.01	268.80	198.09	116.64	200.27	240.82	52.55	215.23	218.35	215.24	176.55	400.57	211.35	168.48
 `;
 
 const DATA_MTD_REV = `
 date	dimensi	nama	rev
-2025-11-14	Channel	MyTelkomsel	29.54
-2025-11-14	Channel	DigiPOS	6.79
-2025-11-14	Channel	Others	6.75
-2025-11-14	Country	Saudi Arabia	15.59
-2025-11-14	Country	Malaysia	6.96
-2025-11-14	Country	China	4.81
-2025-11-14	Country	Singapore	4.96
-2025-11-14	Country	Japan	3.19
-2026-11-14	Channel	MyTelkomsel	31.68
-2026-11-14	Channel	DigiPOS	6.78
-2026-11-14	Channel	Others	6.14
-2026-11-14	Country	Saudi Arabia	15.31
-2026-11-14	Country	Malaysia	6.39
-2026-11-14	Country	China	5.89
-2026-11-14	Country	Singapore	4.18
-2026-11-14	Country	Japan	2.98
+2025-11-15	Channel	MyTelkomsel	31.66
+2025-11-15	Channel	DigiPOS	7.30
+2025-11-15	Channel	Others	7.26
+2025-11-15	Country	Saudi Arabia	16.84
+2025-11-15	Country	Malaysia	7.41
+2025-11-15	Country	China	5.14
+2025-11-15	Country	Singapore	5.31
+2025-11-15	Country	Japan	3.41
+2026-11-15	Channel	MyTelkomsel	33.97
+2026-11-15	Channel	DigiPOS	7.18
+2026-11-15	Channel	Others	6.55
+2026-11-15	Country	Saudi Arabia	16.27
+2026-11-15	Country	Malaysia	6.85
+2026-11-15	Country	China	6.31
+2026-11-15	Country	Singapore	4.51
+2026-11-15	Country	Japan	3.22
 `;
